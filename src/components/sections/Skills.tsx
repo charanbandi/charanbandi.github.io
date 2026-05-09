@@ -1,12 +1,13 @@
+import type { ReactNode } from 'react'
 import { motion } from 'framer-motion'
 import {
   Code2, Shield, Brain, Cloud, Database,
-  Webhook, Activity, Wrench,
+  Webhook, Activity, Wrench, ExternalLink, BadgeCheck,
 } from 'lucide-react'
 import SectionHeading from '../ui/SectionHeading'
 import { skillCategories } from '../../data/skills'
 
-const iconMap: Record<string, React.ReactNode> = {
+const iconMap: Record<string, ReactNode> = {
   'code-2': <Code2 size={18} />,
   shield: <Shield size={18} />,
   brain: <Brain size={18} />,
@@ -64,31 +65,52 @@ export default function Skills() {
           ))}
         </div>
 
-        <motion.div
+        <motion.a
+          href="https://www.credly.com/go/f1e8e8779df69d18f597cb5f885d"
+          target="_blank"
+          rel="noopener noreferrer"
           initial={{ opacity: 0, y: 15 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.4, delay: 0.2 }}
-          className="mt-6 glass rounded-xl p-5 flex flex-col md:flex-row items-center gap-4 md:gap-6"
+          className="mt-8 glass rounded-xl p-6 md:p-8 flex flex-col sm:flex-row items-start sm:items-center
+            gap-5 group hover:border-accent-amber/20 transition-all duration-300 cursor-pointer"
         >
-          <div className="flex items-center gap-3">
-            <div className="p-1.5 rounded-lg bg-accent-amber/8">
-              <Shield size={18} className="text-accent-amber/80" />
+          {/* AWS logo badge */}
+          <div className="flex-shrink-0 p-4 rounded-xl bg-accent-amber/8 border border-accent-amber/15
+            group-hover:bg-accent-amber/12 group-hover:border-accent-amber/25 transition-all duration-300">
+            <Shield size={32} className="text-accent-amber" />
+          </div>
+
+          {/* Text content */}
+          <div className="flex-1 min-w-0">
+            <div className="flex items-center gap-2 mb-1">
+              <BadgeCheck size={15} className="text-accent-amber flex-shrink-0" />
+              <span className="text-xs font-medium text-accent-amber uppercase tracking-widest">
+                AWS Certification
+              </span>
             </div>
-            <div>
-              <div className="text-sm font-medium text-text-primary">
-                AWS Certified DevOps Engineer, Professional
-              </div>
-              <div className="text-xs text-text-secondary">
-                Issued April 2025 &middot; Expires April 2028
-              </div>
+            <div className="text-lg font-semibold text-text-primary mb-1">
+              AWS Certified DevOps Engineer, Professional
+            </div>
+            <div className="text-sm text-text-secondary mb-3">
+              Issued April 2025 &middot; Expires April 2028
+            </div>
+            <div className="flex items-center gap-1.5 text-xs text-text-muted font-mono">
+              <span className="text-text-muted">Validation ID:</span>
+              <span className="text-text-secondary">f1e8e8779df69d18f597cb5f885d</span>
             </div>
           </div>
-          <div className="hidden md:block h-6 w-px bg-border-subtle" />
-          <div className="text-xs text-text-secondary">
-            Validation: f1e8e8779df69d18f597cb5f885d
+
+          {/* Verify link */}
+          <div className="flex items-center gap-2 px-4 py-2.5 rounded-lg border border-accent-amber/20
+            text-accent-amber/80 text-sm font-medium flex-shrink-0
+            group-hover:bg-accent-amber/8 group-hover:border-accent-amber/35 group-hover:text-accent-amber
+            transition-all duration-300 self-start sm:self-center">
+            <span>Verify</span>
+            <ExternalLink size={13} />
           </div>
-        </motion.div>
+        </motion.a>
       </div>
     </section>
   )

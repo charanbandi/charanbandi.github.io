@@ -9,11 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@gsap/react": "^2.1.2",
-    "@react-three/fiber": "^9.6.1",
-    "@react-three/postprocessing": "^3.0.4",
     "framer-motion": "^11.18.0",
-    "gsap": "^3.12.7",
     "lenis": "^1.2.3",
     "lucide-react": "^0.511.0",
     "postprocessing": "^6.39.1",
@@ -25,6 +21,7 @@
     "@tailwindcss/vite": "^4.1.7",
     "@types/react": "^19.1.4",
     "@types/react-dom": "^19.1.5",
+    "@types/three": "^0.184.1",
     "@vitejs/plugin-react": "^4.5.2",
     "tailwindcss": "^4.1.7",
     "typescript": "^5.8.3",

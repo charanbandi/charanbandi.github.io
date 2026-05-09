@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Menu, X, Download, User, Code2, Briefcase, BookOpen, Layers, Mail } from 'lucide-react'
+import { scrollToSection } from '../../utils/scroll'
 
 const sections = [
   { id: 'about',        label: 'About',        href: '#about',        Icon: User },
@@ -53,8 +54,7 @@ export default function Navbar() {
 
   const handleClick = (href: string) => {
     setMobileOpen(false)
-    const el = document.querySelector(href)
-    if (el) el.scrollIntoView({ behavior: 'smooth' })
+    scrollToSection(href)
   }
 
   return (

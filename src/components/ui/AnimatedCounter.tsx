@@ -25,10 +25,11 @@ export default function AnimatedCounter({
   useEffect(() => {
     if (!isInView) return
 
+    let timer: ReturnType<typeof setInterval>
     const timeout = setTimeout(() => {
       let start = 0
       const step = end / (duration * 60)
-      const timer = setInterval(() => {
+      timer = setInterval(() => {
         start += step
         if (start >= end) {
           setCount(end)
@@ -37,11 +38,12 @@ export default function AnimatedCounter({
           setCount(Math.floor(start))
         }
       }, 1000 / 60)
-
-      return () => clearInterval(timer)
     }, delay * 1000)
 
-    return () => clearTimeout(timeout)
+    return () => {
+      clearTimeout(timeout)
+      clearInterval(timer)
+    }
   }, [isInView, end, duration, delay])
 
   return (

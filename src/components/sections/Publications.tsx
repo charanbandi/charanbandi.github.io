@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion'
-import { FileText, ExternalLink, Award, Quote } from 'lucide-react'
+import { FileText, ExternalLink, Award, Quote, GraduationCap } from 'lucide-react'
 import SectionHeading from '../ui/SectionHeading'
 import { publications } from '../../data/publications'
 
@@ -16,7 +16,7 @@ export default function Publications() {
         <div className="space-y-5">
           {publications.map((pub, index) => (
             <motion.div
-              key={index}
+              key={pub.doi}
               initial={{ opacity: 0, y: 15 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: '-50px' }}
@@ -73,27 +73,48 @@ export default function Publications() {
           ))}
         </div>
 
-        <motion.div
+        <motion.a
+          href="https://scholar.google.com/citations?user=6qzhtkAAAAAJ"
+          target="_blank"
+          rel="noopener noreferrer"
           initial={{ opacity: 0, y: 15 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.4, delay: 0.2 }}
-          className="mt-6 glass rounded-xl p-5 flex flex-col sm:flex-row items-center gap-4"
+          className="mt-8 glass rounded-xl p-6 md:p-8 flex flex-col sm:flex-row items-start sm:items-center
+            gap-5 group hover:border-accent-cyan/20 transition-all duration-300 cursor-pointer"
         >
-          <p className="text-sm text-text-muted flex-1">
-            <span className="text-text-secondary">~29 total citations</span> across
-            published work. Research extended by the HWREx framework (ACM TODAES 2025).
-          </p>
-          <a
-            href="https://scholar.google.com/citations?user=6qzhtkAAAAAJ"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-1.5 text-xs text-accent-cyan/70 hover:text-accent-cyan transition-colors whitespace-nowrap"
-          >
-            <ExternalLink size={12} />
-            Google Scholar
-          </a>
-        </motion.div>
+          {/* Icon */}
+          <div className="flex-shrink-0 p-4 rounded-xl bg-accent-cyan/8 border border-accent-cyan/15
+            group-hover:bg-accent-cyan/12 group-hover:border-accent-cyan/25 transition-all duration-300">
+            <GraduationCap size={32} className="text-accent-cyan" />
+          </div>
+
+          {/* Text */}
+          <div className="flex-1 min-w-0">
+            <div className="flex items-center gap-2 mb-1">
+              <Quote size={14} className="text-accent-cyan flex-shrink-0" />
+              <span className="text-xs font-medium text-accent-cyan uppercase tracking-widest">
+                Research Impact
+              </span>
+            </div>
+            <div className="text-lg font-semibold text-text-primary mb-1">
+              ~29 Total Citations
+            </div>
+            <div className="text-sm text-text-secondary">
+              Research extended by the HWREx framework (ACM TODAES 2025).
+            </div>
+          </div>
+
+          {/* CTA */}
+          <div className="flex items-center gap-2 px-4 py-2.5 rounded-lg border border-accent-cyan/20
+            text-accent-cyan/80 text-sm font-medium flex-shrink-0
+            group-hover:bg-accent-cyan/8 group-hover:border-accent-cyan/35 group-hover:text-accent-cyan
+            transition-all duration-300 self-start sm:self-center whitespace-nowrap">
+            <span>Google Scholar</span>
+            <ExternalLink size={13} />
+          </div>
+        </motion.a>
       </div>
     </section>
   )

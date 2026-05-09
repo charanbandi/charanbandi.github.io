@@ -3,6 +3,7 @@ import { motion } from 'framer-motion'
 import { Github, Linkedin, ChevronDown, Download } from 'lucide-react'
 import BlurText from '../ui/BlurText'
 import PixelBlast from '../effects/PixelBlast'
+import { scrollToSection } from '../../utils/scroll'
 
 function useMobile() {
   const [isMobile, setIsMobile] = useState(false)
@@ -17,10 +18,6 @@ function useMobile() {
 
 export default function Hero() {
   const isMobile = useMobile()
-
-  const scrollTo = (id: string) => {
-    document.querySelector(id)?.scrollIntoView({ behavior: 'smooth' })
-  }
 
   return (
     <section id="hero" className="relative min-h-screen flex items-center justify-center overflow-hidden">
@@ -103,7 +100,7 @@ export default function Hero() {
                 className="flex flex-col sm:flex-row gap-3 justify-center lg:justify-start mb-8"
               >
                 <button
-                  onClick={() => scrollTo('#experience')}
+                  onClick={() => scrollToSection('#experience')}
                   className="px-7 py-3.5 rounded-xl font-medium text-sm
                     bg-accent-blue text-white
                     hover:bg-accent-blue/90 transition-all duration-300
@@ -194,7 +191,7 @@ export default function Hero() {
         <motion.button
           animate={{ y: [0, 6, 0] }}
           transition={{ duration: 2.5, repeat: Infinity, ease: 'easeInOut' }}
-          onClick={() => scrollTo('#about')}
+          onClick={() => scrollToSection('#about')}
           className="text-text-muted hover:text-text-secondary transition-colors cursor-pointer"
           aria-label="Scroll down"
         >

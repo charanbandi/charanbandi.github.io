@@ -16,10 +16,10 @@ export default function Footer() {
               href="https://linkedin.com/in/charanbandi"
               target="_blank"
               rel="noopener noreferrer"
-              className="p-2.5 rounded-lg text-text-secondary hover:text-text-primary transition-colors"
+              className="p-2.5 rounded-lg transition-colors hover:opacity-80"
               aria-label="LinkedIn"
             >
-              <Linkedin size={17} />
+              <Linkedin size={17} style={{ color: '#0A66C2' }} />
             </a>
             <a
               href="https://github.com/charanbandi"

@@ -1,19 +1,49 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Menu, X, Download } from 'lucide-react'
+import { Menu, X, Download, User, Code2, Briefcase, BookOpen, Layers, Mail } from 'lucide-react'
 
-const navLinks = [
-  { label: 'About', href: '#about' },
-  { label: 'Skills', href: '#skills' },
-  { label: 'Experience', href: '#experience' },
-  { label: 'Publications', href: '#publications' },
-  { label: 'Projects', href: '#projects' },
-  { label: 'Contact', href: '#contact' },
+const sections = [
+  { id: 'about',        label: 'About',        href: '#about',        Icon: User },
+  { id: 'skills',       label: 'Skills',       href: '#skills',       Icon: Code2 },
+  { id: 'experience',   label: 'Experience',   href: '#experience',   Icon: Briefcase },
+  { id: 'publications', label: 'Publications', href: '#publications', Icon: BookOpen },
+  { id: 'projects',     label: 'Projects',     href: '#projects',     Icon: Layers },
+  { id: 'contact',      label: 'Contact',      href: '#contact',      Icon: Mail },
 ]
+
+function useActiveSection() {
+  const [active, setActive] = useState('')
+  const [pastHero, setPastHero] = useState(false)
+
+  useEffect(() => {
+    const update = () => {
+      const vh = window.innerHeight
+      setPastHero(window.scrollY > vh * 0.6)
+
+      let current = ''
+      for (const s of sections) {
+        const el = document.getElementById(s.id)
+        if (el) {
+          const rect = el.getBoundingClientRect()
+          if (rect.top <= vh * 0.45 && rect.bottom > vh * 0.15) {
+            current = s.id
+          }
+        }
+      }
+      setActive(current)
+    }
+    window.addEventListener('scroll', update, { passive: true })
+    update()
+    return () => window.removeEventListener('scroll', update)
+  }, [])
+
+  return { active, pastHero }
+}
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
+  const { active, pastHero } = useActiveSection()
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 50)
@@ -24,9 +54,7 @@ export default function Navbar() {
   const handleClick = (href: string) => {
     setMobileOpen(false)
     const el = document.querySelector(href)
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth' })
-    }
+    if (el) el.scrollIntoView({ behavior: 'smooth' })
   }
 
   return (
@@ -47,15 +75,27 @@ export default function Navbar() {
             CB
           </button>
 
-          <div className="hidden md:flex items-center gap-1">
-            {navLinks.map((link) => (
+          {/* Desktop nav links — icon + label, highlighted when active */}
+          <div className="hidden md:flex items-center gap-0.5">
+            {sections.map((s) => (
               <button
-                key={link.href}
-                onClick={() => handleClick(link.href)}
-                className="px-3 py-2 text-sm text-text-muted hover:text-text-primary
-                  transition-colors duration-200 rounded-lg cursor-pointer"
+                key={s.href}
+                onClick={() => handleClick(s.href)}
+                className={`relative flex items-center gap-1.5 px-3 py-2 text-sm rounded-lg cursor-pointer transition-colors duration-200 ${
+                  active === s.id
+                    ? 'text-accent-cyan'
+                    : 'text-text-muted hover:text-text-primary'
+                }`}
               >
-                {link.label}
+                <s.Icon size={13} />
+                {s.label}
+                {active === s.id && (
+                  <motion.div
+                    layoutId="nav-underline"
+                    className="absolute bottom-0.5 left-3 right-3 h-px bg-accent-cyan/60"
+                    transition={{ type: 'spring', stiffness: 500, damping: 40 }}
+                  />
+                )}
               </button>
             ))}
             <a
@@ -78,8 +118,56 @@ export default function Navbar() {
             {mobileOpen ? <X size={20} /> : <Menu size={20} />}
           </button>
         </div>
+
+        {/* Mobile section icon strip — appears after scrolling past hero */}
+        <AnimatePresence>
+          {pastHero && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.25 }}
+              className="md:hidden border-t border-white/[0.04] overflow-hidden"
+            >
+              <div className="flex items-center justify-around px-2 py-1.5">
+                {sections.map(({ id, label, href, Icon }) => {
+                  const isActive = active === id
+                  return (
+                    <button
+                      key={id}
+                      onClick={() => handleClick(href)}
+                      className="flex flex-col items-center gap-0.5 px-2 py-1 rounded-lg cursor-pointer"
+                    >
+                      <Icon
+                        size={16}
+                        className={`transition-colors duration-200 ${
+                          isActive ? 'text-accent-cyan' : 'text-text-muted'
+                        }`}
+                      />
+                      <span
+                        className={`text-[9px] font-medium transition-colors duration-200 ${
+                          isActive ? 'text-accent-cyan' : 'text-text-muted'
+                        }`}
+                      >
+                        {label}
+                      </span>
+                      {isActive && (
+                        <motion.div
+                          layoutId="mobile-dot"
+                          className="w-1 h-1 rounded-full bg-accent-cyan"
+                          transition={{ type: 'spring', stiffness: 500, damping: 40 }}
+                        />
+                      )}
+                    </button>
+                  )
+                })}
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </motion.nav>
 
+      {/* Mobile hamburger menu */}
       <AnimatePresence>
         {mobileOpen && (
           <motion.div
@@ -90,14 +178,17 @@ export default function Navbar() {
             className="fixed inset-x-0 top-16 z-40 glass-strong p-4 md:hidden"
           >
             <div className="flex flex-col gap-1">
-              {navLinks.map((link) => (
+              {sections.map((s) => (
                 <button
-                  key={link.href}
-                  onClick={() => handleClick(link.href)}
-                  className="px-4 py-3 text-left text-sm text-text-secondary hover:text-text-primary
-                    hover:bg-white/[0.03] rounded-lg transition-colors cursor-pointer"
+                  key={s.href}
+                  onClick={() => handleClick(s.href)}
+                  className={`px-4 py-3 text-left text-sm rounded-lg transition-colors cursor-pointer ${
+                    active === s.id
+                      ? 'text-accent-cyan bg-accent-cyan/[0.05]'
+                      : 'text-text-secondary hover:text-text-primary hover:bg-white/[0.03]'
+                  }`}
                 >
-                  {link.label}
+                  {s.label}
                 </button>
               ))}
               <a

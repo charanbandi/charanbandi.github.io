@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Lock, ChevronDown, Zap } from 'lucide-react'
+import { Lock, ChevronDown, Zap, Trophy } from 'lucide-react'
 import SectionHeading from '../ui/SectionHeading'
 import { projects } from '../../data/projects'
 
@@ -34,13 +34,22 @@ export default function Projects() {
                       <h3 className="font-display text-lg font-semibold text-text-primary leading-snug">
                         {project.title}
                       </h3>
-                      {project.isInternal && (
-                        <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full
-                          bg-accent-amber/8 border border-accent-amber/15 flex-shrink-0">
-                          <Lock size={10} className="text-accent-amber/80" />
-                          <span className="text-[10px] text-accent-amber/80">Internal</span>
-                        </div>
-                      )}
+                      <div className="flex flex-col items-end gap-1.5 flex-shrink-0">
+                        {project.isHackathonFinalist && (
+                          <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full
+                            bg-accent-amber/10 border border-accent-amber/30">
+                            <Trophy size={10} className="text-accent-amber" />
+                            <span className="text-[10px] text-accent-amber font-medium">Hackathon Finalist</span>
+                          </div>
+                        )}
+                        {project.isInternal && (
+                          <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full
+                            bg-white/[0.04] border border-white/[0.08] flex-shrink-0">
+                            <Lock size={10} className="text-text-muted" />
+                            <span className="text-[10px] text-text-muted">Internal</span>
+                          </div>
+                        )}
+                      </div>
                     </div>
 
                     <p className="text-xs text-text-muted mb-5">{project.subtitle}</p>

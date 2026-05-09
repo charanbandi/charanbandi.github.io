@@ -1,43 +1,65 @@
+import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import { Github, Linkedin, ChevronDown, Download } from 'lucide-react'
 import BlurText from '../ui/BlurText'
 import PixelBlast from '../effects/PixelBlast'
 
+function useMobile() {
+  const [isMobile, setIsMobile] = useState(false)
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768)
+    check()
+    window.addEventListener('resize', check, { passive: true })
+    return () => window.removeEventListener('resize', check)
+  }, [])
+  return isMobile
+}
+
 export default function Hero() {
+  const isMobile = useMobile()
+
   const scrollTo = (id: string) => {
     document.querySelector(id)?.scrollIntoView({ behavior: 'smooth' })
   }
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+    <section id="hero" className="relative min-h-screen flex items-center justify-center overflow-hidden">
+
+      {/* Background: WebGL on desktop, CSS gradient on mobile */}
       <div className="absolute inset-0 z-0">
-        <PixelBlast
-          variant="square"
-          pixelSize={4}
-          color="#2dd4bf"
-          patternScale={2}
-          patternDensity={1}
-          enableRipples
-          rippleSpeed={0.3}
-          rippleThickness={0.1}
-          rippleIntensityScale={1}
-          speed={0.5}
-          transparent
-          edgeFade={0.25}
-        />
+        {isMobile ? (
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_-10%,rgba(45,212,191,0.12),transparent)]" />
+        ) : (
+          <PixelBlast
+            variant="square"
+            pixelSize={4}
+            color="#2dd4bf"
+            patternScale={2}
+            patternDensity={1}
+            enableRipples
+            rippleSpeed={0.3}
+            rippleThickness={0.1}
+            rippleIntensityScale={1}
+            speed={0.5}
+            transparent
+            edgeFade={0.25}
+          />
+        )}
       </div>
 
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-bg-primary z-[5]" />
 
-      <div className="relative z-20 max-w-6xl mx-auto px-6 py-24 w-full">
-        <div className="bg-bg-primary/60 backdrop-blur-md rounded-2xl p-8 md:p-10 border border-white/[0.06]">
-          <div className="flex flex-col lg:flex-row items-center gap-10 lg:gap-16">
-            <div className="flex-1 text-center lg:text-left">
+      <div className="relative z-20 w-full max-w-6xl mx-auto px-4 sm:px-6 py-20 sm:py-24">
+        <div className="bg-bg-primary/60 backdrop-blur-md rounded-2xl p-6 sm:p-8 md:p-10 border border-white/[0.06]">
+          <div className="flex flex-col lg:flex-row items-center gap-8 lg:gap-16">
+
+            {/* Text content */}
+            <div className="flex-1 text-center lg:text-left w-full">
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.1 }}
-                className="flex items-center justify-center lg:justify-start gap-2.5 mb-8"
+                className="flex items-center justify-center lg:justify-start gap-2.5 mb-6"
               >
                 <div className="w-2 h-2 rounded-full bg-accent-emerald animate-pulse-glow" />
                 <span className="text-sm text-accent-emerald/90 tracking-wide">
@@ -58,7 +80,7 @@ export default function Hero() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.4 }}
-                className="text-xl md:text-2xl text-accent-cyan/80 font-medium mb-6"
+                className="text-lg md:text-2xl text-accent-cyan/80 font-medium mb-5"
               >
                 Senior Software Engineer
               </motion.p>
@@ -67,7 +89,7 @@ export default function Hero() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.5 }}
-                className="text-lg text-text-secondary max-w-lg mx-auto lg:mx-0 mb-10 leading-relaxed"
+                className="text-base md:text-lg text-text-secondary max-w-lg mx-auto lg:mx-0 mb-8 leading-relaxed"
               >
                 Building scalable backend systems, VPN infrastructure, and
                 AI-driven solutions serving millions of users globally.
@@ -78,7 +100,7 @@ export default function Hero() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.6 }}
-                className="flex flex-col sm:flex-row gap-3 justify-center lg:justify-start mb-12"
+                className="flex flex-col sm:flex-row gap-3 justify-center lg:justify-start mb-8"
               >
                 <button
                   onClick={() => scrollTo('#experience')}
@@ -108,44 +130,46 @@ export default function Hero() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.6, delay: 0.8 }}
-                className="flex flex-col gap-4 justify-center lg:justify-start"
+                className="flex items-center gap-3 justify-center lg:justify-start flex-wrap"
               >
-                <div className="flex items-center gap-3 justify-center lg:justify-start">
-                  {[
-                    { icon: Linkedin, href: 'https://linkedin.com/in/charanbandi', label: 'LinkedIn' },
-                    { icon: Github, href: 'https://github.com/charanbandi', label: 'GitHub' },
-                  ].map(({ icon: Icon, href, label }) => (
-                    <a
-                      key={label}
-                      href={href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-text-secondary
-                        hover:text-text-primary hover:bg-white/[0.06] border border-white/[0.05]
-                        hover:border-white/[0.12] transition-all duration-300 group"
-                    >
-                      <Icon size={17} className="group-hover:text-accent-cyan transition-colors" />
-                      <span className="text-sm font-medium">{label}</span>
-                    </a>
-                  ))}
+                {[
+                  { icon: Linkedin, href: 'https://linkedin.com/in/charanbandi', label: 'LinkedIn', iconColor: '#0A66C2' },
+                  { icon: Github, href: 'https://github.com/charanbandi', label: 'GitHub', iconColor: undefined },
+                ].map(({ icon: Icon, href, label, iconColor }) => (
+                  <a
+                    key={label}
+                    href={href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-text-secondary
+                      hover:text-text-primary hover:bg-white/[0.06] border border-white/[0.05]
+                      hover:border-white/[0.12] transition-all duration-300 group"
+                  >
+                    <Icon
+                      size={17}
+                      style={iconColor ? { color: iconColor } : undefined}
+                      className={!iconColor ? 'group-hover:text-accent-cyan transition-colors' : ''}
+                    />
+                    <span className="text-sm font-medium">{label}</span>
+                  </a>
+                ))}
 
-                  <div className="flex items-center gap-2 ml-1">
-                    <div className="w-1.5 h-1.5 rounded-full bg-accent-emerald" />
-                    <span className="text-xs text-text-secondary whitespace-nowrap">Mountain View, CA</span>
-                  </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-1.5 h-1.5 rounded-full bg-accent-emerald" />
+                  <span className="text-xs text-text-secondary whitespace-nowrap">Mountain View, CA</span>
                 </div>
               </motion.div>
             </div>
 
+            {/* Profile photo — hidden on small phones, shown sm+ */}
             <motion.div
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.7, delay: 0.4 }}
-              className="relative flex-shrink-0"
+              className="relative flex-shrink-0 hidden sm:block"
             >
-              <div className="relative w-64 h-80 md:w-72 md:h-[360px] lg:w-[300px] lg:h-[380px]">
+              <div className="relative w-52 h-64 sm:w-64 sm:h-80 md:w-72 md:h-[360px] lg:w-[300px] lg:h-[380px]">
                 <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-accent-cyan/15 to-accent-blue/15 blur-2xl" />
-
                 <div className="absolute inset-2 rounded-2xl overflow-hidden border border-white/10">
                   <img
                     src="/images/profile.jpeg"
@@ -156,6 +180,7 @@ export default function Hero() {
                 </div>
               </div>
             </motion.div>
+
           </div>
         </div>
       </div>
@@ -164,7 +189,7 @@ export default function Hero() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1.2, duration: 0.8 }}
-        className="absolute bottom-10 left-1/2 -translate-x-1/2 z-20"
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20"
       >
         <motion.button
           animate={{ y: [0, 6, 0] }}

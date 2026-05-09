@@ -17,7 +17,8 @@ export default function Experience() {
         />
 
         <div className="relative">
-          <div className="absolute left-[11px] top-4 bottom-4 w-px bg-gradient-to-b from-accent-cyan/20 via-border-subtle to-transparent" />
+          {/* Timeline line — desktop only */}
+          <div className="hidden md:block absolute left-[11px] top-4 bottom-4 w-px bg-gradient-to-b from-accent-cyan/20 via-border-subtle to-transparent" />
 
           <div className="space-y-5">
             {experiences.map((exp, index) => {
@@ -30,10 +31,11 @@ export default function Experience() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: '-50px' }}
                   transition={{ duration: 0.4, delay: index * 0.05 }}
-                  className="relative pl-10"
+                  className="relative md:pl-10"
                 >
+                  {/* Timeline dot — desktop only */}
                   <div
-                    className={`absolute left-[7px] top-7 w-[9px] h-[9px] rounded-full border-2 z-10 transition-colors duration-300 ${
+                    className={`hidden md:block absolute left-[7px] top-7 w-[9px] h-[9px] rounded-full border-2 z-10 transition-colors duration-300 ${
                       isExpanded
                         ? 'border-accent-cyan bg-accent-cyan/30'
                         : 'border-text-muted bg-bg-primary'
@@ -43,7 +45,7 @@ export default function Experience() {
                   <div className="glass rounded-xl overflow-hidden">
                     <button
                       onClick={() => setExpandedIndex(isExpanded ? null : index)}
-                      className="w-full text-left p-6 lg:p-7 cursor-pointer group"
+                      className="w-full text-left p-5 md:p-6 lg:p-7 cursor-pointer group"
                     >
                       <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-3">
                         <div>
@@ -87,7 +89,7 @@ export default function Experience() {
                           transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
                           className="overflow-hidden"
                         >
-                          <div className="px-6 lg:px-7 pb-6 lg:pb-7 border-t border-border-subtle">
+                          <div className="px-5 md:px-6 lg:px-7 pb-5 md:pb-6 lg:pb-7 border-t border-border-subtle">
                             <ul className="mt-5 space-y-4">
                               {exp.description.map((bullet, i) => (
                                 <motion.li

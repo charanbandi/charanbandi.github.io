@@ -46,15 +46,15 @@ export default function Contact() {
                 transition={{ delay: index * 0.1 }}
                 className={`glass rounded-xl p-6 flex items-center gap-5 group transition-all duration-300
                   hover:border-accent-cyan/15 cursor-pointer block ${
-                    link.primary ? 'ring-1 ring-accent-blue/20' : ''
+                    link.primary ? 'ring-1 ring-[#0A66C2]/25' : ''
                   }`}
               >
                 <div className={`p-3 rounded-xl transition-colors duration-300 ${
                   link.primary
-                    ? 'bg-accent-blue/10 text-accent-blue group-hover:bg-accent-blue/15'
+                    ? 'bg-[#0A66C2]/10 group-hover:bg-[#0A66C2]/20'
                     : 'bg-white/[0.04] text-text-muted group-hover:text-text-secondary'
                 }`}>
-                  <Icon size={22} />
+                  <Icon size={22} style={link.primary ? { color: '#0A66C2' } : undefined} />
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="font-display font-semibold text-text-primary mb-0.5">

@@ -5,6 +5,7 @@ export interface Project {
   technologies: string[]
   impacts: string[]
   isInternal?: boolean
+  isHackathonFinalist?: boolean
   image?: string
   links?: { label: string; url: string }[]
 }
@@ -12,7 +13,8 @@ export interface Project {
 export const projects: Project[] = [
   {
     title: 'Private VPN Layer for LLM Interactions',
-    subtitle: 'AI Hackathon Finalist Project at Gen Digital',
+    subtitle: 'AI Hackathon Finalist · Gen Digital',
+    isHackathonFinalist: true,
     description:
       'Designed and prototyped a Private VPN layer that sits between consumer applications and Large Language Model services, enabling automatic detection and filtration of PII and PCI data at the network edge before it reaches external AI providers. The system intercepts outbound LLM API requests, scans payloads for sensitive data patterns using regex and ML-based classifiers, redacts or masks detected fields, and forwards sanitized requests. Responses are similarly inspected before returning to the consumer.',
     technologies: [

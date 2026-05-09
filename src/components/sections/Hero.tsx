@@ -51,7 +51,7 @@ export default function Hero() {
           <div className="flex flex-col lg:flex-row items-center gap-8 lg:gap-16">
 
             {/* Text content */}
-            <div className="flex-1 text-center lg:text-left w-full">
+            <div className="flex-1 text-center lg:text-left w-full order-last lg:order-first">
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -158,14 +158,26 @@ export default function Hero() {
               </motion.div>
             </div>
 
-            {/* Profile photo — hidden on small phones, shown sm+ */}
+            {/* Profile photo — circular avatar on mobile, rectangular card on sm+ */}
             <motion.div
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.7, delay: 0.4 }}
-              className="relative flex-shrink-0 hidden sm:block"
+              className="relative flex-shrink-0 order-first lg:order-last"
             >
-              <div className="relative w-52 h-64 sm:w-64 sm:h-80 md:w-72 md:h-[360px] lg:w-[300px] lg:h-[380px]">
+              {/* Mobile: circular avatar */}
+              <div className="sm:hidden w-24 h-24 rounded-full overflow-hidden mx-auto
+                border-2 border-white/10 ring-2 ring-accent-cyan/20">
+                <img
+                  src="/images/profile.jpeg"
+                  alt="Charan Bandi"
+                  className="w-full h-full object-cover object-top"
+                  loading="eager"
+                />
+              </div>
+
+              {/* sm+: rectangular card */}
+              <div className="hidden sm:block relative w-52 h-64 sm:w-64 sm:h-80 md:w-72 md:h-[360px] lg:w-[300px] lg:h-[380px]">
                 <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-accent-cyan/15 to-accent-blue/15 blur-2xl" />
                 <div className="absolute inset-2 rounded-2xl overflow-hidden border border-white/10">
                   <img

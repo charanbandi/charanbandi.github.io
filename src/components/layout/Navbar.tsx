@@ -67,16 +67,48 @@ export default function Navbar() {
           scrolled ? 'glass-strong' : 'bg-bg-primary/40 backdrop-blur-sm'
         }`}
       >
-        <div className="max-w-5xl mx-auto px-6 h-16 flex items-center justify-between">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 h-16 flex items-center gap-2">
+
+          {/* Logo */}
           <button
             onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-            className="font-display font-bold text-lg text-text-primary cursor-pointer"
+            className="font-display font-bold text-lg text-text-primary cursor-pointer flex-shrink-0"
           >
             CB
           </button>
 
-          {/* Desktop nav links — icon + label, highlighted when active */}
-          <div className="hidden md:flex items-center gap-0.5">
+          {/* Mobile: inline section icons — centered, appear after hero */}
+          <div className="flex-1 flex items-center justify-center md:hidden">
+            <AnimatePresence>
+              {pastHero && (
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.2 }}
+                  className="flex items-center"
+                >
+                  {sections.map(({ id, href, Icon }) => {
+                    const isActive = active === id
+                    return (
+                      <button
+                        key={id}
+                        onClick={() => handleClick(href)}
+                        className={`p-2 rounded-lg transition-colors duration-200 cursor-pointer ${
+                          isActive ? 'text-accent-cyan' : 'text-text-muted hover:text-text-secondary'
+                        }`}
+                      >
+                        <Icon size={15} />
+                      </button>
+                    )
+                  })}
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+
+          {/* Desktop nav links */}
+          <div className="hidden md:flex flex-1 items-center justify-center gap-0.5">
             {sections.map((s) => (
               <button
                 key={s.href}
@@ -98,73 +130,30 @@ export default function Navbar() {
                 )}
               </button>
             ))}
+          </div>
+
+          {/* Right side: Resume (desktop) + Hamburger (mobile) */}
+          <div className="flex items-center gap-2 flex-shrink-0">
             <a
               href="/resume/Charan_Bandi_Resume.pdf"
               target="_blank"
               rel="noopener noreferrer"
-              className="ml-2 flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg
+              className="hidden md:flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg
                 bg-white/[0.05] text-text-secondary border border-border-subtle
                 hover:text-text-primary hover:border-text-muted transition-all duration-200"
             >
               <Download size={13} />
               Resume
             </a>
+            <button
+              onClick={() => setMobileOpen(!mobileOpen)}
+              className="md:hidden p-2 text-text-muted hover:text-text-primary transition-colors cursor-pointer"
+            >
+              {mobileOpen ? <X size={20} /> : <Menu size={20} />}
+            </button>
           </div>
 
-          <button
-            onClick={() => setMobileOpen(!mobileOpen)}
-            className="md:hidden p-2 text-text-muted hover:text-text-primary transition-colors cursor-pointer"
-          >
-            {mobileOpen ? <X size={20} /> : <Menu size={20} />}
-          </button>
         </div>
-
-        {/* Mobile section icon strip — appears after scrolling past hero */}
-        <AnimatePresence>
-          {pastHero && (
-            <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: 'auto' }}
-              exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.25 }}
-              className="md:hidden border-t border-white/[0.04] overflow-hidden"
-            >
-              <div className="flex items-center justify-around px-2 py-1.5">
-                {sections.map(({ id, label, href, Icon }) => {
-                  const isActive = active === id
-                  return (
-                    <button
-                      key={id}
-                      onClick={() => handleClick(href)}
-                      className="flex flex-col items-center gap-0.5 px-2 py-1 rounded-lg cursor-pointer"
-                    >
-                      <Icon
-                        size={16}
-                        className={`transition-colors duration-200 ${
-                          isActive ? 'text-accent-cyan' : 'text-text-muted'
-                        }`}
-                      />
-                      <span
-                        className={`text-[9px] font-medium transition-colors duration-200 ${
-                          isActive ? 'text-accent-cyan' : 'text-text-muted'
-                        }`}
-                      >
-                        {label}
-                      </span>
-                      {isActive && (
-                        <motion.div
-                          layoutId="mobile-dot"
-                          className="w-1 h-1 rounded-full bg-accent-cyan"
-                          transition={{ type: 'spring', stiffness: 500, damping: 40 }}
-                        />
-                      )}
-                    </button>
-                  )
-                })}
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
       </motion.nav>
 
       {/* Mobile hamburger menu */}

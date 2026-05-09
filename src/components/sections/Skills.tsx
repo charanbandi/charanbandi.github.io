@@ -66,7 +66,7 @@ export default function Skills() {
         </div>
 
         <motion.a
-          href="https://www.credly.com/go/f1e8e8779df69d18f597cb5f885d"
+          href="https://www.credly.com/badges/f2b8b521-28b6-4d53-87ac-affddc2a9ed8"
           target="_blank"
           rel="noopener noreferrer"
           initial={{ opacity: 0, y: 15 }}

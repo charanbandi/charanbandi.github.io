@@ -1,47 +1,29 @@
-import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import { Github, Linkedin, ChevronDown, Download } from 'lucide-react'
 import BlurText from '../ui/BlurText'
 import PixelBlast from '../effects/PixelBlast'
 import { scrollToSection } from '../../utils/scroll'
 
-function useMobile() {
-  const [isMobile, setIsMobile] = useState(false)
-  useEffect(() => {
-    const check = () => setIsMobile(window.innerWidth < 768)
-    check()
-    window.addEventListener('resize', check, { passive: true })
-    return () => window.removeEventListener('resize', check)
-  }, [])
-  return isMobile
-}
-
 export default function Hero() {
-  const isMobile = useMobile()
-
   return (
     <section id="hero" className="relative min-h-screen flex items-center justify-center overflow-hidden">
 
-      {/* Background: WebGL on desktop, CSS gradient on mobile */}
+      {/* Background: WebGL PixelBlast on all devices */}
       <div className="absolute inset-0 z-0">
-        {isMobile ? (
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_-10%,rgba(45,212,191,0.12),transparent)]" />
-        ) : (
-          <PixelBlast
-            variant="square"
-            pixelSize={4}
-            color="#2dd4bf"
-            patternScale={2}
-            patternDensity={1}
-            enableRipples
-            rippleSpeed={0.3}
-            rippleThickness={0.1}
-            rippleIntensityScale={1}
-            speed={0.5}
-            transparent
-            edgeFade={0.25}
-          />
-        )}
+        <PixelBlast
+          variant="square"
+          pixelSize={4}
+          color="#2dd4bf"
+          patternScale={2}
+          patternDensity={1}
+          enableRipples
+          rippleSpeed={0.3}
+          rippleThickness={0.1}
+          rippleIntensityScale={1}
+          speed={0.5}
+          transparent
+          edgeFade={0.25}
+        />
       </div>
 
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-bg-primary z-[5]" />

@@ -8,7 +8,7 @@ const stats = [
   { end: 5, prefix: '$', suffix: 'B+', label: 'Revenue Supported' },
   { end: 5000, suffix: '+', label: 'Servers Managed' },
   { end: 100, suffix: '+', label: 'Global Locations' },
-  { end: 168, prefix: '$', suffix: 'K+', label: 'Annual Savings' },
+  { end: 170, prefix: '~$', suffix: 'K+', label: 'Annual Savings' },
 ]
 
 export default function About() {

@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    width: 1200px;
+    height: 630px;
+    overflow: hidden;
+    background: #080c14;
+    font-family: 'Outfit', -apple-system, 'Segoe UI', system-ui, sans-serif;
+    color: white;
+    position: relative;
+  }
+
+  /* Dot grid background */
+  .grid-bg {
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(circle, rgba(45,212,191,0.18) 1px, transparent 1px);
+    background-size: 28px 28px;
+    mask-image: radial-gradient(ellipse 90% 80% at 50% 50%, black 20%, transparent 80%);
+    -webkit-mask-image: radial-gradient(ellipse 90% 80% at 50% 50%, black 20%, transparent 80%);
+  }
+
+  /* Glow blobs */
+  .glow-left {
+    position: absolute;
+    top: -120px;
+    left: -120px;
+    width: 500px;
+    height: 500px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(45,212,191,0.12) 0%, transparent 70%);
+  }
+  .glow-right {
+    position: absolute;
+    bottom: -150px;
+    right: -100px;
+    width: 600px;
+    height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(59,130,246,0.10) 0%, transparent 70%);
+  }
+
+  /* Border frame */
+  .frame {
+    position: absolute;
+    inset: 24px;
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 20px;
+    pointer-events: none;
+  }
+
+  /* Main content */
+  .content {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    height: 100%;
+    padding: 56px 72px;
+    gap: 64px;
+  }
+
+  /* Left side */
+  .left {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .status {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 20px;
+  }
+  .status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #34d399;
+    box-shadow: 0 0 8px rgba(52,211,153,0.6);
+  }
+  .status-text {
+    font-size: 13px;
+    color: rgba(52,211,153,0.9);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+
+  .name {
+    font-size: 72px;
+    font-weight: 800;
+    line-height: 1.0;
+    color: #ffffff;
+    letter-spacing: -2px;
+    margin-bottom: 12px;
+  }
+
+  .title {
+    font-size: 26px;
+    font-weight: 600;
+    color: #2dd4bf;
+    margin-bottom: 28px;
+    letter-spacing: -0.3px;
+  }
+
+  .company {
+    font-size: 15px;
+    color: rgba(255,255,255,0.45);
+    margin-bottom: 36px;
+    font-weight: 400;
+  }
+  .company strong {
+    color: rgba(255,255,255,0.7);
+    font-weight: 600;
+  }
+
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 40px;
+  }
+  .tag {
+    padding: 5px 14px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 500;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.09);
+    color: rgba(255,255,255,0.55);
+    font-family: 'JetBrains Mono', monospace;
+    letter-spacing: 0.02em;
+  }
+
+  .url {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    color: rgba(255,255,255,0.25);
+    letter-spacing: 0.05em;
+  }
+  .url span {
+    color: rgba(45,212,191,0.5);
+  }
+
+  /* Right side: photo + badge */
+  .right {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    flex-shrink: 0;
+  }
+
+  .photo-wrap {
+    position: relative;
+    width: 220px;
+    height: 270px;
+  }
+  .photo-glow {
+    position: absolute;
+    inset: -20px;
+    border-radius: 24px;
+    background: radial-gradient(ellipse, rgba(45,212,191,0.15) 0%, transparent 70%);
+  }
+  .photo {
+    position: absolute;
+    inset: 0;
+    border-radius: 18px;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.1);
+  }
+  .photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top;
+  }
+
+  .cert-badge {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 16px;
+    background: rgba(251,191,36,0.06);
+    border: 1px solid rgba(251,191,36,0.2);
+    border-radius: 10px;
+    width: 100%;
+  }
+  .cert-icon {
+    width: 20px;
+    height: 20px;
+    color: #fbbf24;
+    flex-shrink: 0;
+  }
+  .cert-text {
+    font-size: 11px;
+    color: rgba(251,191,36,0.85);
+    font-weight: 600;
+    line-height: 1.3;
+    letter-spacing: 0.02em;
+  }
+  .cert-sub {
+    font-size: 9.5px;
+    color: rgba(251,191,36,0.5);
+    font-weight: 400;
+    display: block;
+    margin-top: 2px;
+  }
+</style>
+</head>
+<body>
+  <div class="grid-bg"></div>
+  <div class="glow-left"></div>
+  <div class="glow-right"></div>
+  <div class="frame"></div>
+
+  <div class="content">
+    <div class="left">
+      <div class="status">
+        <div class="status-dot"></div>
+        <span class="status-text">Open to Opportunities</span>
+      </div>
+
+      <div class="name">Charan<br>Bandi</div>
+      <div class="title">Senior Software Engineer</div>
+      <div class="company">Currently at <strong>Gen Digital</strong> &mdash; Norton · Avast · Avira · LifeLock</div>
+
+      <div class="tags">
+        <span class="tag">Java</span>
+        <span class="tag">Python</span>
+        <span class="tag">Go</span>
+        <span class="tag">AWS</span>
+        <span class="tag">VPN Infrastructure</span>
+        <span class="tag">AI Systems</span>
+      </div>
+
+      <div class="url"><span>◆</span> charanbandi.github.io</div>
+    </div>
+
+    <div class="right">
+      <div class="photo-wrap">
+        <div class="photo-glow"></div>
+        <div class="photo">
+          <img src="file:///Users/vbandi/Downloads/repos/charanbandi.github.io/public/images/profile.jpeg" />
+        </div>
+      </div>
+
+      <div class="cert-badge">
+        <svg class="cert-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+        </svg>
+        <div class="cert-text">
+          AWS Certified DevOps Engineer
+          <span class="cert-sub">Professional · Verified</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

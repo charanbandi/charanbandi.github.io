@@ -135,7 +135,7 @@ export default function Navbar() {
           {/* Right side: Resume (desktop) + Hamburger (mobile) */}
           <div className="flex items-center gap-2 flex-shrink-0">
             <a
-              href="/resume/Charan_Bandi_Resume.pdf"
+              href="/resume/Charan_Bandi_Resume_Portfolio.pdf"
               target="_blank"
               rel="noopener noreferrer"
               className="hidden md:flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg
@@ -181,7 +181,7 @@ export default function Navbar() {
                 </button>
               ))}
               <a
-                href="/resume/Charan_Bandi_Resume.pdf"
+                href="/resume/Charan_Bandi_Resume_Portfolio.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="mt-2 flex items-center justify-center gap-2 px-4 py-3 text-sm font-medium rounded-lg

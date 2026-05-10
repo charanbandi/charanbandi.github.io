@@ -1,29 +1,39 @@
+import { lazy, Suspense, useState } from 'react'
 import { motion } from 'framer-motion'
-import { Github, Linkedin, ChevronDown, Download } from 'lucide-react'
+import { Github, Linkedin, ChevronDown, Download, Mail } from 'lucide-react'
 import BlurText from '../ui/BlurText'
-import PixelBlast from '../effects/PixelBlast'
+import ContactModal from '../ui/ContactModal'
 import { scrollToSection } from '../../utils/scroll'
+import { openToWork, targetingLabel } from '../../data/config'
+
+const PixelBlast = lazy(() => import('../effects/PixelBlast'))
 
 export default function Hero() {
+  const [contactOpen, setContactOpen] = useState(false)
+
   return (
     <section id="hero" className="relative min-h-screen flex items-center justify-center overflow-hidden">
 
-      {/* Background: WebGL PixelBlast on all devices */}
+      {/* Background: WebGL PixelBlast — lazy-loaded so Three.js doesn't block TTI */}
       <div className="absolute inset-0 z-0">
-        <PixelBlast
-          variant="square"
-          pixelSize={4}
-          color="#2dd4bf"
-          patternScale={2}
-          patternDensity={1}
-          enableRipples
-          rippleSpeed={0.3}
-          rippleThickness={0.1}
-          rippleIntensityScale={1}
-          speed={0.5}
-          transparent
-          edgeFade={0.25}
-        />
+        <Suspense fallback={
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_-10%,rgba(45,212,191,0.10),transparent)]" />
+        }>
+          <PixelBlast
+            variant="square"
+            pixelSize={4}
+            color="#2dd4bf"
+            patternScale={2}
+            patternDensity={1}
+            enableRipples
+            rippleSpeed={0.3}
+            rippleThickness={0.1}
+            rippleIntensityScale={1}
+            speed={0.5}
+            transparent
+            edgeFade={0.25}
+          />
+        </Suspense>
       </div>
 
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-bg-primary z-[5]" />
@@ -34,17 +44,24 @@ export default function Hero() {
 
             {/* Text content */}
             <div className="flex-1 text-center lg:text-left w-full order-last lg:order-first">
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.1 }}
-                className="flex items-center justify-center lg:justify-start gap-2.5 mb-6"
-              >
-                <div className="w-2 h-2 rounded-full bg-accent-emerald animate-pulse-glow" />
-                <span className="text-sm text-accent-emerald/90 tracking-wide">
-                  Open to opportunities
-                </span>
-              </motion.div>
+              {openToWork && (
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.1 }}
+                  className="flex items-center justify-center lg:justify-start gap-2.5 mb-6"
+                >
+                  <div className="w-2 h-2 rounded-full bg-accent-emerald animate-pulse-glow flex-shrink-0" />
+                  <div>
+                    <div className="text-sm text-accent-emerald/90 tracking-wide leading-tight">
+                      Open to opportunities
+                    </div>
+                    <div className="text-xs text-accent-emerald/55 mt-0.5">
+                      {targetingLabel}
+                    </div>
+                  </div>
+                </motion.div>
+              )}
 
               <BlurText
                 text="Charan Bandi"
@@ -92,7 +109,7 @@ export default function Hero() {
                   View My Work
                 </button>
                 <a
-                  href="/resume/Charan_Bandi_Resume.pdf"
+                  href="/resume/Charan_Bandi_Resume_Portfolio.pdf"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center justify-center gap-2 px-7 py-3.5 rounded-xl font-medium text-sm
@@ -103,6 +120,16 @@ export default function Hero() {
                   <Download size={15} />
                   Resume
                 </a>
+                <button
+                  onClick={() => setContactOpen(true)}
+                  className="flex items-center justify-center gap-2 px-7 py-3.5 rounded-xl font-medium text-sm
+                    border border-accent-cyan/20 text-accent-cyan/80
+                    hover:border-accent-cyan/40 hover:text-accent-cyan hover:bg-accent-cyan/[0.05]
+                    transition-all duration-300 cursor-pointer"
+                >
+                  <Mail size={15} />
+                  Get in touch
+                </button>
               </motion.div>
 
               <motion.div
@@ -152,6 +179,8 @@ export default function Hero() {
                 border-2 border-white/10 ring-2 ring-accent-cyan/20">
                 <img
                   src="/images/profile.jpeg"
+                  srcSet="/images/profile-sm.jpeg 200w, /images/profile-md.jpeg 400w, /images/profile.jpeg 533w"
+                  sizes="96px"
                   alt="Charan Bandi"
                   className="w-full h-full object-cover object-top"
                   loading="eager"
@@ -164,6 +193,8 @@ export default function Hero() {
                 <div className="absolute inset-2 rounded-2xl overflow-hidden border border-white/10">
                   <img
                     src="/images/profile.jpeg"
+                    srcSet="/images/profile-sm.jpeg 200w, /images/profile-md.jpeg 400w, /images/profile.jpeg 533w"
+                    sizes="(max-width: 768px) 208px, (max-width: 1024px) 288px, 300px"
                     alt="Charan Bandi"
                     className="w-full h-full object-cover object-top"
                     loading="eager"
@@ -192,6 +223,8 @@ export default function Hero() {
           <ChevronDown size={24} />
         </motion.button>
       </motion.div>
+
+      <ContactModal isOpen={contactOpen} onClose={() => setContactOpen(false)} />
     </section>
   )
 }

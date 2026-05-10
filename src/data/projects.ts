@@ -27,7 +27,7 @@ export const projects: Project[] = [
       'Network-edge privacy protection',
     ],
     isInternal: true,
-    image: '/images/hackathon-flow.png',
+    image: '/images/hackathon-flow.jpg',
   },
   {
     title: 'Goalie: AI-Driven Incident Triage',

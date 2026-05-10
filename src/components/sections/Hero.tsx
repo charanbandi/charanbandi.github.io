@@ -177,28 +177,44 @@ export default function Hero() {
               {/* Mobile: circular avatar */}
               <div className="sm:hidden w-24 h-24 rounded-full overflow-hidden mx-auto
                 border-2 border-white/10 ring-2 ring-accent-cyan/20">
-                <img
-                  src="/images/profile.jpeg"
-                  srcSet="/images/profile-sm.jpeg 200w, /images/profile-md.jpeg 400w, /images/profile.jpeg 533w"
-                  sizes="96px"
-                  alt="Charan Bandi"
-                  className="w-full h-full object-cover object-top"
-                  loading="eager"
-                />
+                <picture>
+                  <source
+                    type="image/webp"
+                    srcSet="/images/profile-sm.webp 200w, /images/profile-md.webp 400w, /images/profile.webp 533w"
+                    sizes="96px"
+                  />
+                  <img
+                    src="/images/profile.jpeg"
+                    srcSet="/images/profile-sm.jpeg 200w, /images/profile-md.jpeg 400w, /images/profile.jpeg 533w"
+                    sizes="96px"
+                    alt="Charan Bandi"
+                    className="w-full h-full object-cover object-top"
+                    loading="eager"
+                    fetchPriority="high"
+                  />
+                </picture>
               </div>
 
               {/* sm+: rectangular card */}
               <div className="hidden sm:block relative w-52 h-64 sm:w-64 sm:h-80 md:w-72 md:h-[360px] lg:w-[300px] lg:h-[380px]">
                 <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-accent-cyan/15 to-accent-blue/15 blur-2xl" />
                 <div className="absolute inset-2 rounded-2xl overflow-hidden border border-white/10">
-                  <img
-                    src="/images/profile.jpeg"
-                    srcSet="/images/profile-sm.jpeg 200w, /images/profile-md.jpeg 400w, /images/profile.jpeg 533w"
-                    sizes="(max-width: 768px) 208px, (max-width: 1024px) 288px, 300px"
-                    alt="Charan Bandi"
-                    className="w-full h-full object-cover object-top"
-                    loading="eager"
-                  />
+                  <picture>
+                    <source
+                      type="image/webp"
+                      srcSet="/images/profile-sm.webp 200w, /images/profile-md.webp 400w, /images/profile.webp 533w"
+                      sizes="(max-width: 768px) 208px, (max-width: 1024px) 288px, 300px"
+                    />
+                    <img
+                      src="/images/profile.jpeg"
+                      srcSet="/images/profile-sm.jpeg 200w, /images/profile-md.jpeg 400w, /images/profile.jpeg 533w"
+                      sizes="(max-width: 768px) 208px, (max-width: 1024px) 288px, 300px"
+                      alt="Charan Bandi"
+                      className="w-full h-full object-cover object-top"
+                      loading="eager"
+                      fetchPriority="high"
+                    />
+                  </picture>
                 </div>
               </div>
             </motion.div>

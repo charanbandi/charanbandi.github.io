@@ -1,84 +1,45 @@
-import { useState, useEffect } from 'react'
+import { useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
   X, User, Mail, MessageSquare,
   Send, CheckCircle, AlertCircle, Loader2,
 } from 'lucide-react'
-
-type FormState = 'idle' | 'loading' | 'success' | 'error'
+import { useContactForm } from '../../hooks/useContactForm'
 
 interface Props {
   isOpen: boolean
   onClose: () => void
 }
 
-export default function ContactModal({ isOpen, onClose }: Props) {
-  const [formState, setFormState] = useState<FormState>('idle')
-  const [errorMsg, setErrorMsg] = useState('')
-  const [fields, setFields] = useState({ name: '', email: '', message: '' })
+const inputClass = `w-full bg-white/[0.04] border border-white/[0.09] rounded-xl px-4 py-3
+  text-text-primary placeholder:text-text-muted text-sm
+  focus:outline-none focus:border-accent-cyan/40 focus:bg-white/[0.06]
+  transition-all duration-200 disabled:opacity-50`
 
-  // Close on Escape key
+export default function ContactModal({ isOpen, onClose }: Props) {
+  const { formState, errorMsg, fields, handleChange, handleSubmit, reset } = useContactForm()
+
   useEffect(() => {
     if (!isOpen) return
-    const handler = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose() }
+    const handler = (e: KeyboardEvent) => { if (e.key === 'Escape') handleClose() }
     document.addEventListener('keydown', handler)
     return () => document.removeEventListener('keydown', handler)
-  }, [isOpen, onClose])
+  }, [isOpen])
 
-  // Prevent body scroll when open
   useEffect(() => {
     document.body.style.overflow = isOpen ? 'hidden' : ''
     return () => { document.body.style.overflow = '' }
   }, [isOpen])
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFields(prev => ({ ...prev, [e.target.name]: e.target.value }))
-  }
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setFormState('loading')
-    setErrorMsg('')
-    try {
-      const res = await fetch('https://api.web3forms.com/submit', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-        body: JSON.stringify({
-          access_key: '6231a15a-6daf-4cc4-be2f-366d8fd03c0a',
-          subject: `Portfolio message from ${fields.name}`,
-          from_name: fields.name,
-          ...fields,
-        }),
-      })
-      const data = await res.json()
-      if (data.success) {
-        setFormState('success')
-        setFields({ name: '', email: '', message: '' })
-      } else {
-        throw new Error(data.message || 'Submission failed')
-      }
-    } catch (err) {
-      setFormState('error')
-      setErrorMsg(err instanceof Error ? err.message : 'Something went wrong. Try again.')
-    }
-  }
-
   const handleClose = () => {
     onClose()
-    // Reset state after exit animation finishes
-    setTimeout(() => { setFormState('idle'); setErrorMsg('') }, 300)
+    setTimeout(reset, 300)
   }
-
-  const inputClass = `w-full bg-white/[0.04] border border-white/[0.09] rounded-xl px-4 py-3
-    text-text-primary placeholder:text-text-muted text-sm
-    focus:outline-none focus:border-accent-cyan/40 focus:bg-white/[0.06]
-    transition-all duration-200 disabled:opacity-50`
 
   return (
     <AnimatePresence>
       {isOpen && (
         <>
-          {/* Backdrop */}
           <motion.div
             key="backdrop"
             initial={{ opacity: 0 }}
@@ -89,25 +50,18 @@ export default function ContactModal({ isOpen, onClose }: Props) {
             className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm"
           />
 
-          {/* Modal */}
           <motion.div
             key="modal"
             initial={{ opacity: 0, scale: 0.96, y: 16 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.96, y: 16 }}
             transition={{ type: 'spring', stiffness: 420, damping: 36 }}
-            className="fixed inset-x-4 top-1/2 -translate-y-1/2 z-50
-              max-w-md mx-auto glass rounded-2xl p-6 md:p-8"
+            className="fixed inset-x-4 top-1/2 -translate-y-1/2 z-50 max-w-md mx-auto glass rounded-2xl p-6 md:p-8"
           >
-            {/* Header */}
             <div className="flex items-start justify-between mb-6">
               <div>
-                <h2 className="font-display font-semibold text-lg text-text-primary">
-                  Send a message
-                </h2>
-                <p className="text-sm text-text-muted mt-0.5">
-                  I'll get back to you as soon as I can.
-                </p>
+                <h2 className="font-display font-semibold text-lg text-text-primary">Send a message</h2>
+                <p className="text-sm text-text-muted mt-0.5">I'll get back to you as soon as I can.</p>
               </div>
               <button
                 onClick={handleClose}
@@ -157,31 +111,15 @@ export default function ContactModal({ isOpen, onClose }: Props) {
                       <label className="flex items-center gap-1.5 text-xs text-text-muted font-medium">
                         <User size={11} /> Name
                       </label>
-                      <input
-                        type="text"
-                        name="name"
-                        value={fields.name}
-                        onChange={handleChange}
-                        required
-                        placeholder="Your name"
-                        className={inputClass}
-                        disabled={formState === 'loading'}
-                      />
+                      <input type="text" name="name" value={fields.name} onChange={handleChange}
+                        required placeholder="Your name" className={inputClass} disabled={formState === 'loading'} />
                     </div>
                     <div className="space-y-1.5">
                       <label className="flex items-center gap-1.5 text-xs text-text-muted font-medium">
                         <Mail size={11} /> Email
                       </label>
-                      <input
-                        type="email"
-                        name="email"
-                        value={fields.email}
-                        onChange={handleChange}
-                        required
-                        placeholder="your@email.com"
-                        className={inputClass}
-                        disabled={formState === 'loading'}
-                      />
+                      <input type="email" name="email" value={fields.email} onChange={handleChange}
+                        required placeholder="your@email.com" className={inputClass} disabled={formState === 'loading'} />
                     </div>
                   </div>
 
@@ -189,26 +127,16 @@ export default function ContactModal({ isOpen, onClose }: Props) {
                     <label className="flex items-center gap-1.5 text-xs text-text-muted font-medium">
                       <MessageSquare size={11} /> Message
                     </label>
-                    <textarea
-                      name="message"
-                      value={fields.message}
-                      onChange={handleChange}
-                      required
-                      rows={4}
-                      placeholder="What's on your mind?"
-                      className={`${inputClass} resize-none`}
-                      disabled={formState === 'loading'}
-                    />
+                    <textarea name="message" value={fields.message} onChange={handleChange}
+                      required rows={4} placeholder="What's on your mind?"
+                      className={`${inputClass} resize-none`} disabled={formState === 'loading'} />
                   </div>
 
                   <AnimatePresence>
                     {formState === 'error' && (
                       <motion.div
-                        initial={{ opacity: 0, y: -4 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0 }}
-                        className="flex items-center gap-2 text-sm text-red-400
-                          bg-red-500/[0.06] border border-red-500/20 rounded-lg px-4 py-3"
+                        initial={{ opacity: 0, y: -4 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}
+                        className="flex items-center gap-2 text-sm text-red-400 bg-red-500/[0.06] border border-red-500/20 rounded-lg px-4 py-3"
                       >
                         <AlertCircle size={14} className="flex-shrink-0" />
                         {errorMsg}
@@ -217,19 +145,17 @@ export default function ContactModal({ isOpen, onClose }: Props) {
                   </AnimatePresence>
 
                   <button
-                    type="submit"
-                    disabled={formState === 'loading'}
+                    type="submit" disabled={formState === 'loading'}
                     className="w-full flex items-center justify-center gap-2 px-6 py-3 rounded-xl
                       bg-accent-blue text-white text-sm font-medium
                       hover:bg-accent-blue/90 active:scale-[0.98]
                       disabled:opacity-60 disabled:cursor-not-allowed
                       transition-all duration-200 cursor-pointer"
                   >
-                    {formState === 'loading' ? (
-                      <><Loader2 size={14} className="animate-spin" /> Sending…</>
-                    ) : (
-                      <><Send size={14} /> Send Message</>
-                    )}
+                    {formState === 'loading'
+                      ? <><Loader2 size={14} className="animate-spin" /> Sending…</>
+                      : <><Send size={14} /> Send Message</>
+                    }
                   </button>
                 </motion.form>
               )}

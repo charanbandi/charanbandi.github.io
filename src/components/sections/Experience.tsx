@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { MapPin, Calendar, ChevronRight, ChevronLeft } from 'lucide-react'
 import SectionHeading from '../ui/SectionHeading'
@@ -24,6 +24,21 @@ export default function Experience() {
   const [active, setActive] = useState(0)
   const [direction, setDirection] = useState(0)
   const touchStartX = useRef(0)
+  const mobileInnerRef = useRef<HTMLDivElement>(null)
+  const [mobileMinH, setMobileMinH] = useState(0)
+
+  // Ratchet the mobile container's min-height up to the tallest card seen so
+  // that switching to a shorter card never causes a layout-reflow shrink.
+  useEffect(() => {
+    const el = mobileInnerRef.current
+    if (!el) return
+    const ro = new ResizeObserver(() => {
+      const h = el.offsetHeight
+      if (h > 0) setMobileMinH(prev => Math.max(prev, h))
+    })
+    ro.observe(el)
+    return () => ro.disconnect()
+  }, [])
 
   const go = (index: number) => {
     setDirection(index > active ? 1 : -1)
@@ -184,11 +199,18 @@ export default function Experience() {
             })}
           </div>
 
-          {/* Swipeable card */}
-          <div onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}>
-            <AnimatePresence mode="wait" custom={direction}>
-              {card}
-            </AnimatePresence>
+          {/* Swipeable card — outer clips x-overflow (no BFC, won't affect y),
+              minHeight prevents height-shrink layout reflow when switching cards */}
+          <div
+            style={{ overflowX: 'clip', minHeight: mobileMinH || undefined }}
+            onTouchStart={onTouchStart}
+            onTouchEnd={onTouchEnd}
+          >
+            <div ref={mobileInnerRef}>
+              <AnimatePresence mode="wait" custom={direction}>
+                {card}
+              </AnimatePresence>
+            </div>
           </div>
         </div>
 

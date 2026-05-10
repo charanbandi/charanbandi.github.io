@@ -27,48 +27,7 @@ export default function App() {
     }
     requestAnimationFrame(raf)
 
-    // Section snap: after scrolling stops, nudge to the nearest section boundary
-    // if we're stranded in the gap between two sections.
-    const sectionIds = ['hero', 'about', 'skills', 'experience', 'publications', 'projects', 'contact']
-    let snapTimer: ReturnType<typeof setTimeout>
-    let isSnapping = false
-
-    lenis.on('scroll', () => {
-      if (isSnapping) return
-      clearTimeout(snapTimer)
-      snapTimer = setTimeout(() => {
-        const vh = window.innerHeight
-
-        // Find the section whose top is closest to the viewport top
-        let bestEl: Element | null = null
-        let bestDist = Infinity
-
-        for (const id of sectionIds) {
-          const el = document.getElementById(id) ?? (id === 'hero' ? document.querySelector('section') : null)
-          if (!el) continue
-          const top = el.getBoundingClientRect().top
-          const dist = Math.abs(top)
-          if (dist < bestDist) {
-            bestDist = dist
-            bestEl = el
-          }
-        }
-
-        // Only snap if the section boundary is within 35% of the viewport height —
-        // any further in and we're clearly reading that section, so leave it alone.
-        if (bestEl && bestDist > 8 && bestDist < vh * 0.35) {
-          isSnapping = true
-          lenis.scrollTo(bestEl as HTMLElement, {
-            duration: 0.5,
-            offset: 0,
-            onComplete: () => { isSnapping = false },
-          })
-        }
-      }, 180)
-    })
-
     return () => {
-      clearTimeout(snapTimer)
       lenis.destroy()
     }
   }, [])

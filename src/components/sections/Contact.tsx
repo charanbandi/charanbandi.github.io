@@ -37,7 +37,7 @@ export default function Contact() {
     <section id="contact" className="relative section-padding">
       <div className="max-w-3xl mx-auto px-6">
         <SectionHeading
-          label="06 / Contact"
+          label="07 / Contact"
           title="Let's Talk"
           description="Have an opportunity or just want to say hi? Send a message or reach out directly."
         />

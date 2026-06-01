@@ -1,12 +1,13 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Menu, X, Download, User, Code2, Briefcase, BookOpen, Layers, Mail } from 'lucide-react'
+import { Menu, X, Download, User, Code2, Briefcase, BookOpen, Layers, Mail, GraduationCap } from 'lucide-react'
 import { scrollToSection } from '../../utils/scroll'
 
 const sections = [
   { id: 'about',        label: 'About',        href: '#about',        Icon: User },
   { id: 'skills',       label: 'Skills',       href: '#skills',       Icon: Code2 },
   { id: 'experience',   label: 'Experience',   href: '#experience',   Icon: Briefcase },
+  { id: 'education',    label: 'Education',    href: '#education',    Icon: GraduationCap },
   { id: 'publications', label: 'Publications', href: '#publications', Icon: BookOpen },
   { id: 'projects',     label: 'Projects',     href: '#projects',     Icon: Layers },
   { id: 'contact',      label: 'Contact',      href: '#contact',      Icon: Mail },

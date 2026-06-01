@@ -9,17 +9,17 @@ export const skillCategories: SkillCategory[] = [
     title: 'Languages & Frameworks',
     icon: 'code-2',
     skills: [
-      'Python', 'Go', 'C/C++', 'Java', 'Spring Boot',
+      'Python', 'Go', 'Java', 'Spring Boot', 'C/C++',
       'Ruby on Rails', 'Node.js', 'React', 'TypeScript',
     ],
   },
   {
-    title: 'Networking & Security',
-    icon: 'shield',
+    title: 'Cloud & DevOps',
+    icon: 'cloud',
     skills: [
-      'IPsec/IKEv2', 'StrongSwan', 'Libreswan', 'OpenVPN',
-      'WireGuard', 'TLS/SSL', 'TCP/IP', 'DNS',
-      'Zero Trust', 'PKI/Certificates',
+      'AWS', 'Azure', 'Docker', 'Kubernetes',
+      'Terraform', 'Terragrunt', 'Ansible',
+      'Jenkins', 'GitHub Actions', 'Linux',
     ],
   },
   {
@@ -32,12 +32,12 @@ export const skillCategories: SkillCategory[] = [
     ],
   },
   {
-    title: 'Cloud & DevOps',
-    icon: 'cloud',
+    title: 'Networking & Security',
+    icon: 'shield',
     skills: [
-      'AWS', 'Azure', 'Docker', 'Kubernetes',
-      'Terraform', 'Terragrunt', 'Ansible',
-      'Jenkins', 'GitHub Actions', 'Linux',
+      'IPsec/IKEv2', 'StrongSwan', 'Libreswan', 'OpenVPN',
+      'WireGuard', 'TLS/SSL', 'TCP/IP', 'DNS',
+      'Zero Trust', 'PKI/Certificates',
     ],
   },
   {

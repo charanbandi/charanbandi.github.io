@@ -11,7 +11,7 @@ export default function Projects() {
     <section id="projects" className="relative section-padding">
       <div className="max-w-5xl mx-auto px-6">
         <SectionHeading
-          label="05 / Projects"
+          label="06 / Projects"
           title="Featured Work"
           description="Systems I've designed and built, from AI-driven automation to IoT security research."
         />

@@ -59,6 +59,9 @@ export const projects: Project[] = [
       '2 IEEE publications',
       'LSTM RNN forecasting models',
     ],
+    links: [
+      { label: 'GitHub', url: 'https://github.com/charanbandi/NationalVulnerabilityDatabase' },
+    ],
   },
   {
     title: 'Housing Analytics Platform',
@@ -73,6 +76,9 @@ export const projects: Project[] = [
       '1.5M property dataset',
       '30+ library integrations',
       'ML-powered predictions',
+    ],
+    links: [
+      { label: 'GitHub', url: 'https://github.com/charanbandi/Housing-Analytics' },
     ],
   },
 ]

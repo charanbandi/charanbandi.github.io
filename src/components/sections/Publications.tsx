@@ -8,7 +8,7 @@ export default function Publications() {
     <section id="publications" className="relative section-padding">
       <div className="max-w-5xl mx-auto px-6">
         <SectionHeading
-          label="04 / Research"
+          label="05 / Research"
           title="Publications"
           description="Peer-reviewed research on hardware vulnerability analysis using NLP and machine learning."
         />

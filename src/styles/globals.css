@@ -125,3 +125,73 @@ body {
     padding-bottom: 11rem;
   }
 }
+
+/* ── Avatar glitch hover effect ── */
+.avatar-glitch {
+  /* position intentionally not set — callers must provide relative or absolute themselves */
+}
+
+.avatar-glitch__scanlines {
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.04) 2px,
+    rgba(0, 0, 0, 0.04) 4px
+  );
+  pointer-events: none;
+  opacity: 0;
+  border-radius: inherit;
+  z-index: 2;
+}
+
+.avatar-glitch__rgb {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  border-radius: inherit;
+  z-index: 3;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .avatar-glitch:hover .avatar-glitch__scanlines {
+    animation: glitch-scanlines 0.55s steps(2) forwards;
+  }
+
+  .avatar-glitch:hover .avatar-glitch__rgb {
+    animation: glitch-rgb 0.55s steps(3) forwards;
+  }
+}
+
+@keyframes glitch-scanlines {
+  0%   { opacity: 0.7; transform: translateY(0px); }
+  15%  { transform: translateY(-4px); opacity: 0.45; }
+  35%  { transform: translateY(3px);  opacity: 0.65; }
+  55%  { transform: translateY(-2px); opacity: 0.35; }
+  75%  { transform: translateY(2px);  opacity: 0.5; }
+  90%  { transform: translateY(-1px); opacity: 0.25; }
+  100% { opacity: 0; transform: translateY(0); }
+}
+
+@keyframes glitch-rgb {
+  0% {
+    opacity: 1;
+    clip-path: inset(20% 0 55% 0);
+    background: linear-gradient(90deg, rgba(255,0,60,0.14) 0%, transparent 50%, rgba(0,200,255,0.14) 100%);
+  }
+  34% {
+    clip-path: inset(55% 0 10% 0);
+    background: linear-gradient(90deg, rgba(0,200,255,0.12) 0%, transparent 50%, rgba(255,0,60,0.12) 100%);
+  }
+  67% {
+    clip-path: inset(5% 0 72% 0);
+    background: linear-gradient(90deg, rgba(0,255,120,0.10) 0%, transparent 50%, rgba(255,0,60,0.14) 100%);
+  }
+  100% {
+    opacity: 0;
+    clip-path: inset(0 0 0 0);
+  }
+}

@@ -42,8 +42,8 @@ export default function Hero() {
         <div className="bg-bg-primary/60 backdrop-blur-md rounded-2xl p-6 sm:p-8 md:p-10 border border-white/[0.06]">
           <div className="flex flex-col lg:flex-row items-center gap-8 lg:gap-16">
 
-            {/* Text content */}
-            <div className="flex-1 text-center lg:text-left w-full order-last lg:order-first">
+            {/* Text content — lg:order-first puts it on the left on desktop; on mobile it's first in source order */}
+            <div className="flex-1 text-center lg:text-left w-full lg:order-first">
               {openToWork && (
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
@@ -172,11 +172,11 @@ export default function Hero() {
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.7, delay: 0.4 }}
-              className="relative flex-shrink-0 order-first lg:order-last"
+              className="relative flex-shrink-0 lg:order-last"
             >
               {/* Mobile: circular avatar */}
-              <div className="sm:hidden w-24 h-24 rounded-full overflow-hidden mx-auto
-                border-2 border-white/10 ring-2 ring-accent-cyan/20">
+              <div className="sm:hidden relative w-24 h-24 rounded-full overflow-hidden mx-auto
+                border-2 border-white/10 ring-2 ring-accent-cyan/20 avatar-glitch">
                 <picture>
                   <source
                     type="image/webp"
@@ -193,12 +193,14 @@ export default function Hero() {
                     fetchPriority="high"
                   />
                 </picture>
+                <div className="avatar-glitch__scanlines" />
+                <div className="avatar-glitch__rgb" />
               </div>
 
               {/* sm+: rectangular card */}
               <div className="hidden sm:block relative w-52 h-64 sm:w-64 sm:h-80 md:w-72 md:h-[360px] lg:w-[300px] lg:h-[380px]">
                 <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-accent-cyan/15 to-accent-blue/15 blur-2xl" />
-                <div className="absolute inset-2 rounded-2xl overflow-hidden border border-white/10">
+                <div className="absolute inset-2 rounded-2xl overflow-hidden border border-white/10 avatar-glitch">
                   <picture>
                     <source
                       type="image/webp"
@@ -215,6 +217,8 @@ export default function Hero() {
                       fetchPriority="high"
                     />
                   </picture>
+                  <div className="avatar-glitch__scanlines" />
+                  <div className="avatar-glitch__rgb" />
                 </div>
               </div>
             </motion.div>

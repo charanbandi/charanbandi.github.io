@@ -1,16 +1,34 @@
-import { Github, Linkedin, ArrowUp } from 'lucide-react'
+import { Github, Linkedin, ArrowUp, MapPin } from 'lucide-react'
+import { scrollToTop } from '../../utils/lenisStore'
+import { openToWork } from '../../data/config'
 
 export default function Footer() {
   return (
     <footer className="border-t border-border-subtle">
       <div className="max-w-5xl mx-auto px-6 py-10">
         <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+
+          {/* Name + status */}
           <div className="text-center md:text-left">
-            <div className="font-display font-semibold text-text-primary mb-0.5">
+            <div className="font-display font-semibold text-text-primary mb-1">
               Charan Bandi
+            </div>
+            <div className="flex items-center gap-2 justify-center md:justify-start">
+              {openToWork ? (
+                <div className="flex items-center gap-1.5 text-xs text-accent-emerald/80">
+                  <span className="w-1.5 h-1.5 rounded-full bg-accent-emerald animate-pulse-glow" />
+                  Open to opportunities
+                </div>
+              ) : (
+                <div className="flex items-center gap-1.5 text-xs text-text-muted">
+                  <MapPin size={11} />
+                  Mountain View, CA
+                </div>
+              )}
             </div>
           </div>
 
+          {/* Social links */}
           <div className="flex items-center gap-2">
             <a
               href="https://linkedin.com/in/charanbandi"
@@ -32,8 +50,9 @@ export default function Footer() {
             </a>
           </div>
 
+          {/* Back to top */}
           <button
-            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+            onClick={scrollToTop}
             className="flex items-center gap-1.5 text-xs text-text-muted
               hover:text-text-secondary transition-colors cursor-pointer"
           >
@@ -42,9 +61,17 @@ export default function Footer() {
           </button>
         </div>
 
-        <div className="mt-8 pt-6 border-t border-border-subtle text-center">
+        {/* Bottom row */}
+        <div className="mt-8 pt-6 border-t border-border-subtle flex flex-col sm:flex-row items-center justify-between gap-3">
           <p className="text-xs text-text-muted">
-            &copy; 2026 Charan Bandi. All rights reserved.
+            &copy; {new Date().getFullYear()} Charan Bandi
+          </p>
+          <p className="text-xs text-text-muted">
+            Built with{' '}
+            <span className="text-text-secondary">React</span>,{' '}
+            <span className="text-text-secondary">Vite</span>,{' '}
+            <span className="text-text-secondary">TypeScript</span>{' '}&amp;{' '}
+            <span className="text-text-secondary">Three.js</span>
           </p>
         </div>
       </div>

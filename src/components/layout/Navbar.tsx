@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Menu, X, Download, User, Code2, Briefcase, BookOpen, Layers, Mail, GraduationCap } from 'lucide-react'
 import { scrollToSection } from '../../utils/scroll'
+import { scrollToTop } from '../../utils/lenisStore'
 
 const sections = [
   { id: 'about',        label: 'About',        href: '#about',        Icon: User },
@@ -72,7 +73,7 @@ export default function Navbar() {
 
           {/* Logo */}
           <button
-            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+            onClick={() => scrollToTop()}
             className="font-display font-bold text-lg text-text-primary cursor-pointer flex-shrink-0"
           >
             CB

@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Lock, ChevronDown, Zap, Trophy } from 'lucide-react'
+import { Lock, ChevronDown, Zap, Trophy, Github, ExternalLink } from 'lucide-react'
 import SectionHeading from '../ui/SectionHeading'
 import { projects } from '../../data/projects'
 
@@ -111,19 +111,35 @@ export default function Projects() {
                         )}
                       </div>
 
-                      <button
-                        onClick={() => setExpandedIndex(isExpanded ? null : index)}
-                        className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary
-                          transition-colors duration-200 cursor-pointer flex-shrink-0"
-                      >
-                        {isExpanded ? 'Less' : 'More'}
-                        <motion.div
-                          animate={{ rotate: isExpanded ? 180 : 0 }}
-                          transition={{ duration: 0.2 }}
+                      <div className="flex items-center gap-3 flex-shrink-0">
+                        {project.links?.map((link) => (
+                          <a
+                            key={link.url}
+                            href={link.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            onClick={(e) => e.stopPropagation()}
+                            className="flex items-center gap-1 text-xs text-text-muted hover:text-accent-cyan
+                              transition-colors duration-200"
+                          >
+                            {link.label === 'GitHub' ? <Github size={13} /> : <ExternalLink size={13} />}
+                            {link.label}
+                          </a>
+                        ))}
+                        <button
+                          onClick={() => setExpandedIndex(isExpanded ? null : index)}
+                          className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary
+                            transition-colors duration-200 cursor-pointer"
                         >
-                          <ChevronDown size={13} />
-                        </motion.div>
-                      </button>
+                          {isExpanded ? 'Less' : 'More'}
+                          <motion.div
+                            animate={{ rotate: isExpanded ? 180 : 0 }}
+                            transition={{ duration: 0.2 }}
+                          >
+                            <ChevronDown size={13} />
+                          </motion.div>
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>

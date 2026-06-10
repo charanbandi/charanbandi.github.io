@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion'
+import { ExternalLink, Download } from 'lucide-react'
 import SectionHeading from '../ui/SectionHeading'
 import AnimatedCounter from '../ui/AnimatedCounter'
 
@@ -87,22 +88,30 @@ export default function About() {
 
             <div className="glass rounded-xl p-6">
               <div className="flex items-center gap-2 mb-5">
-                <div className="w-1.5 h-1.5 rounded-full bg-accent-amber" />
-                <span className="text-xs text-accent-amber/80 tracking-widest uppercase">
-                  Education
+                <div className="w-1.5 h-1.5 rounded-full bg-accent-blue" />
+                <span className="text-xs text-accent-blue/80 tracking-widest uppercase">
+                  Quick Links
                 </span>
               </div>
-              <div className="space-y-4">
-                <div>
-                  <div className="text-sm font-medium text-text-primary">M.S. Computer Science</div>
-                  <div className="text-xs text-text-muted mt-0.5">George Mason University, 2019 - 2021</div>
-                  <div className="text-xs text-text-muted">GPA: 3.70 / 4.0</div>
-                </div>
-                <div className="border-t border-border-subtle pt-4">
-                  <div className="text-sm font-medium text-text-primary">B.Tech Computer Science</div>
-                  <div className="text-xs text-text-muted mt-0.5">GITAM University, 2015 - 2019</div>
-                  <div className="text-xs text-text-muted">CGPA: 8.56 / 10</div>
-                </div>
+              <div className="space-y-3">
+                {[
+                  { label: 'Download Resume', href: '/resume/Charan_Bandi_Resume_Portfolio.pdf', icon: Download },
+                  { label: 'LinkedIn', href: 'https://linkedin.com/in/charanbandi', icon: ExternalLink },
+                  { label: 'GitHub', href: 'https://github.com/charanbandi', icon: ExternalLink },
+                  { label: 'Google Scholar', href: 'https://scholar.google.com/citations?user=6qzhtkAAAAAJ', icon: ExternalLink },
+                ].map(({ label, href, icon: Icon }) => (
+                  <a
+                    key={label}
+                    href={href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-between text-sm text-text-secondary
+                      hover:text-text-primary transition-colors duration-200 group"
+                  >
+                    <span>{label}</span>
+                    <Icon size={12} className="text-text-muted group-hover:text-text-secondary transition-colors" />
+                  </a>
+                ))}
               </div>
             </div>
           </motion.div>

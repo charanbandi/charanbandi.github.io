@@ -12,6 +12,25 @@ export interface Project {
 
 export const projects: Project[] = [
   {
+    title: 'TaleSauce - AI Agent Simulator',
+    subtitle: 'EazoAI x Gen Hackathon · Open Source',
+    description:
+      'A sandboxed agent simulator where AI agents become pixel-art characters living in an 8-bit world, walking to their desks, taking coffee breaks, and waving for your attention when they need a decision. Originated as an idea presented at the EazoAI x Gen Hackathon and continued beyond the 12-hour constraint. The entire farm, office, and characters are drawn procedurally on canvas (no sprite sheets), streamed as live Phaser textures. A server-authoritative TypeScript monorepo: Fastify + WebSocket + SQLite on the server, React + Phaser 3 + Zustand on the client. Swappable brains (OpenClaw, Claude Code, Cursor, Codex CLI) all walk, talk, and report through the same interface.',
+    technologies: [
+      'TypeScript', 'React 18', 'Phaser 3', 'Node.js', 'Fastify', 'WebSocket', 'SQLite', 'Zustand', 'Vite',
+    ],
+    impacts: [
+      'Zero sprite sheets - every pixel drawn in code',
+      'Agents emote live based on AI state',
+      'Server-authoritative real-time world sync',
+      '4 AI backends behind one interface',
+    ],
+    image: '/images/talesauce-hero.png',
+    links: [
+      { label: 'GitHub', url: 'https://github.com/charanbandi/TaleSauce' },
+    ],
+  },
+  {
     title: 'Private VPN Layer for LLM Interactions',
     subtitle: 'AI Hackathon Finalist · Gen Digital',
     isHackathonFinalist: true,

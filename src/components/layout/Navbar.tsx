@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Menu, X, Download, User, Code2, Briefcase, BookOpen, Layers, Mail, GraduationCap } from 'lucide-react'
+import { Menu, X, Download, User, Code2, Briefcase, BookOpen, Layers, Mail, GraduationCap, Sun, Moon } from 'lucide-react'
 import { scrollToSection } from '../../utils/scroll'
 import { scrollToTop } from '../../utils/lenisStore'
+import { useTheme } from '../../hooks/useTheme'
 
 const sections = [
   { id: 'about',        label: 'About',        href: '#about',        Icon: User },
@@ -47,6 +48,7 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
   const { active, pastHero } = useActiveSection()
+  const { theme, toggle } = useTheme()
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 50)
@@ -134,7 +136,7 @@ export default function Navbar() {
             ))}
           </div>
 
-          {/* Right side: Resume (desktop) + Hamburger (mobile) */}
+          {/* Right side: Resume (desktop) + theme toggle + Hamburger (mobile) */}
           <div className="flex items-center gap-2 flex-shrink-0">
             <a
               href="/resume/Charan_Bandi_Resume_Portfolio.pdf"
@@ -147,6 +149,14 @@ export default function Navbar() {
               <Download size={13} />
               Resume
             </a>
+            <button
+              onClick={toggle}
+              aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+              className="p-2 rounded-lg text-text-muted hover:text-text-primary
+                hover:bg-white/[0.06] transition-all duration-200 cursor-pointer"
+            >
+              {theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
+            </button>
             <button
               onClick={() => setMobileOpen(!mobileOpen)}
               className="md:hidden p-2 text-text-muted hover:text-text-primary transition-colors cursor-pointer"

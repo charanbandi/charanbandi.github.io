@@ -3,11 +3,11 @@ import { useEffect, useRef } from 'react'
 const VS = `attribute vec2 a;void main(){gl_Position=vec4(a,0.,1.);}`
 
 const FS = `precision highp float;
-uniform float T;uniform vec2 R;
+uniform float T;uniform vec2 R;uniform vec3 C;uniform float A;
 float h(vec2 p){return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5);}
 float n(vec2 p){vec2 i=floor(p),f=fract(p);f=f*f*(3.-2.*f);return mix(mix(h(i),h(i+vec2(1,0)),f.x),mix(h(i+vec2(0,1)),h(i+vec2(1,1)),f.x),f.y);}
 void main(){
-  float ps=4.;
+  float ps=8.;
   vec2 cell=floor(gl_FragCoord.xy/ps);
   vec2 fr=fract(gl_FragCoord.xy/ps);
   vec2 uv=cell/(R/ps);
@@ -20,8 +20,15 @@ void main(){
   bright*=1.-step(.87,max(fr.x,fr.y))*.92;
   vec2 eu=gl_FragCoord.xy/R;
   bright*=smoothstep(0.,.18,min(min(eu.x,1.-eu.x),min(eu.y,1.-eu.y)));
-  gl_FragColor=vec4(.176,.831,.749,bright);
+  gl_FragColor=vec4(C,bright*A);
 }`
+
+// Per-theme pixel color + alpha. Light mode needs a deep, saturated tone and a
+// higher alpha so the grid actually reads against a near-white background.
+const THEMES = {
+  dark:  { color: [0.176, 0.831, 0.749] as const, alpha: 1.0 },
+  light: { color: [0.043, 0.357, 0.655] as const, alpha: 1.5 },
+}
 
 export default function PixelScatter() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
@@ -33,16 +40,27 @@ export default function PixelScatter() {
     const gl = canvas.getContext('webgl', { alpha: true, premultipliedAlpha: false, antialias: false })
     if (!gl) return
 
-    const resize = () => {
-      const w = canvas.offsetWidth
-      const h = canvas.offsetHeight
-      if (!w || !h) return
+    // Apply size only when it actually changes — avoids ResizeObserver infinite loops
+    const applySize = (w: number, h: number) => {
+      if (!w || !h || (canvas.width === w && canvas.height === h)) return
       canvas.width = w
       canvas.height = h
       gl.viewport(0, 0, w, h)
     }
-    resize()
-    const ro = new ResizeObserver(resize)
+
+    // offsetWidth/Height can be 0 on mobile before layout settles — fall back to window
+    applySize(
+      canvas.offsetWidth || window.innerWidth,
+      canvas.offsetHeight || window.innerHeight,
+    )
+
+    // contentRect is more reliable than offsetWidth on mobile (iOS Safari, etc.)
+    const ro = new ResizeObserver(entries => {
+      for (const entry of entries) {
+        const { width, height } = entry.contentRect
+        applySize(Math.round(width), Math.round(height))
+      }
+    })
     ro.observe(canvas)
 
     gl.enable(gl.BLEND)
@@ -67,16 +85,28 @@ export default function PixelScatter() {
 
     const uT = gl.getUniformLocation(prog, 'T')
     const uR = gl.getUniformLocation(prog, 'R')
+    const uC = gl.getUniformLocation(prog, 'C')
+    const uA = gl.getUniformLocation(prog, 'A')
 
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
     const start = performance.now()
     let raf = 0
+
+    // Pick palette from the current theme, and react to live toggles
+    let palette = THEMES[document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'dark']
+    const themeObserver = new MutationObserver(() => {
+      palette = THEMES[document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'dark']
+      if (reducedMotion) draw(0) // static mode: repaint on theme change
+    })
+    themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] })
 
     function draw(t: number) {
       gl!.clearColor(0, 0, 0, 0)
       gl!.clear(gl!.COLOR_BUFFER_BIT)
       gl!.uniform1f(uT, t)
       gl!.uniform2f(uR, canvas!.width, canvas!.height)
+      gl!.uniform3f(uC, palette.color[0], palette.color[1], palette.color[2])
+      gl!.uniform1f(uA, palette.alpha)
       gl!.drawArrays(gl!.TRIANGLE_STRIP, 0, 4)
     }
 
@@ -90,6 +120,7 @@ export default function PixelScatter() {
     return () => {
       cancelAnimationFrame(raf)
       ro.disconnect()
+      themeObserver.disconnect()
     }
   }, [])
 

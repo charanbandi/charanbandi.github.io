@@ -16,6 +16,13 @@ export default function TiltCard({ children, className = '' }: TiltCardProps) {
   const glareY = useTransform(mouseY, [-0.5, 0.5], [0, 100])
   const glare = useMotionTemplate`radial-gradient(circle at ${glareX}% ${glareY}%, rgba(255,255,255,0.05) 0%, transparent 65%)`
 
+  // Touch-primary devices (phones/tablets) don't have hover — skip tilt entirely
+  // to prevent cards getting stuck mid-tilt after a tap
+  const isTouch = window.matchMedia('(hover: none)').matches
+  if (isTouch) {
+    return <div className={className}>{children}</div>
+  }
+
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     const rect = e.currentTarget.getBoundingClientRect()
     mouseX.set((e.clientX - rect.left) / rect.width - 0.5)

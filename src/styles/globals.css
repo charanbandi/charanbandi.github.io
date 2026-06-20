@@ -169,6 +169,103 @@ body {
   100% { opacity: 0; transform: translateY(0); }
 }
 
+/* ── Light Mode ─────────────────────────────────────────────── */
+:root[data-theme="light"] {
+  /* Cool, lightly-tinted slate base — NOT pure white. Cards stay white so they
+     float above this with real depth (the Linear/Arc/Raycast approach). */
+  --color-bg-primary:    #e7ebf3;
+  --color-bg-secondary:  #eef1f8;
+  --color-bg-tertiary:   #dfe4ef;
+  --color-bg-elevated:   #ffffff;
+  --color-bg-card:       #ffffff;
+  --color-text-primary:  #0d1424;
+  --color-text-secondary:#475069;
+  --color-text-muted:    #6b748c;
+  --color-text-accent:   #0284c7;
+  --color-accent-cyan:   #0284c7;
+  --color-border-subtle: rgba(30, 41, 80, 0.10);
+  --color-border-glow:   rgba(14, 165, 233, 0.22);
+  --color-glow-cyan:     rgba(14, 165, 233, 0.07);
+  --color-glow-blue:     rgba(59, 130, 246, 0.07);
+}
+
+/* Soft aurora atmosphere on the tinted base — gives the page colour and life.
+   Cards then sit on top as crisp white surfaces with elevation shadows. */
+:root[data-theme="light"] body {
+  background-color: var(--color-bg-primary);
+  background-image:
+    radial-gradient(ellipse 90% 55% at 50% -12%, rgba(56, 189, 248, 0.20), transparent 72%),
+    radial-gradient(ellipse 70% 60% at 100% 6%, rgba(99, 102, 241, 0.16), transparent 64%),
+    radial-gradient(ellipse 75% 60% at 0% 98%, rgba(45, 212, 191, 0.13), transparent 66%),
+    radial-gradient(ellipse 60% 50% at 85% 100%, rgba(168, 85, 247, 0.10), transparent 62%);
+  background-attachment: fixed;
+}
+
+:root[data-theme="light"] .glass {
+  background: rgba(255, 255, 255, 0.72);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  box-shadow:
+    0 1px 2px rgba(20, 28, 56, 0.05),
+    0 10px 28px -14px rgba(20, 28, 56, 0.20),
+    inset 0 1px 0 rgba(255, 255, 255, 0.7);
+}
+:root[data-theme="light"] .glass-strong {
+  background: rgba(255, 255, 255, 0.88);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  box-shadow:
+    0 2px 8px rgba(20, 28, 56, 0.07),
+    0 16px 40px -16px rgba(20, 28, 56, 0.24),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+/* Hero glass card (bg-bg-primary/60) — crisp white surface floating on the aurora */
+:root[data-theme="light"] .bg-bg-primary\/60 {
+  background-color: rgba(255, 255, 255, 0.66);
+  border-color: rgba(255, 255, 255, 0.6);
+  box-shadow:
+    0 4px 14px rgba(20, 28, 56, 0.06),
+    0 24px 56px -22px rgba(20, 28, 56, 0.26),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+/* Swap white-opacity fills → dark-opacity equivalents */
+:root[data-theme="light"] .bg-white\/\[0\.03\] { background-color: rgba(0,0,0,0.03); }
+:root[data-theme="light"] .bg-white\/\[0\.04\] { background-color: rgba(0,0,0,0.04); }
+:root[data-theme="light"] .bg-white\/\[0\.05\] { background-color: rgba(0,0,0,0.04); }
+:root[data-theme="light"] .bg-white\/\[0\.06\] { background-color: rgba(0,0,0,0.05); }
+:root[data-theme="light"] .bg-white\/\[0\.07\] { background-color: rgba(0,0,0,0.05); }
+:root[data-theme="light"] .bg-white\/10        { background-color: rgba(0,0,0,0.06); }
+:root[data-theme="light"] .hover\:bg-white\/\[0\.03\]:hover { background-color: rgba(0,0,0,0.03); }
+:root[data-theme="light"] .hover\:bg-white\/\[0\.06\]:hover { background-color: rgba(0,0,0,0.05); }
+:root[data-theme="light"] .hover\:bg-white\/\[0\.07\]:hover { background-color: rgba(0,0,0,0.05); }
+
+/* Swap white-opacity borders → dark-opacity equivalents */
+:root[data-theme="light"] .border-white\/\[0\.04\] { border-color: rgba(0,0,0,0.07); }
+:root[data-theme="light"] .border-white\/\[0\.05\] { border-color: rgba(0,0,0,0.08); }
+:root[data-theme="light"] .border-white\/\[0\.06\] { border-color: rgba(0,0,0,0.08); }
+:root[data-theme="light"] .border-white\/\[0\.07\] { border-color: rgba(0,0,0,0.09); }
+:root[data-theme="light"] .border-white\/\[0\.08\] { border-color: rgba(0,0,0,0.09); }
+:root[data-theme="light"] .border-white\/\[0\.10\] { border-color: rgba(0,0,0,0.11); }
+:root[data-theme="light"] .border-white\/10        { border-color: rgba(0,0,0,0.10); }
+:root[data-theme="light"] .border-white\/\[0\.12\] { border-color: rgba(0,0,0,0.12); }
+:root[data-theme="light"] .hover\:border-white\/\[0\.12\]:hover { border-color: rgba(0,0,0,0.13); }
+
+/* Scrollbar */
+:root[data-theme="light"] ::-webkit-scrollbar-track { background: var(--color-bg-primary); }
+:root[data-theme="light"] ::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.12); }
+:root[data-theme="light"] ::-webkit-scrollbar-thumb:hover { background: rgba(0,0,0,0.20); }
+
+/* Dial back noise in light mode */
+:root[data-theme="light"] .noise-overlay { opacity: 0.004; }
+
+:root[data-theme="light"] ::selection {
+  background-color: rgba(14, 165, 233, 0.22);
+  color: #09090b;
+}
+
+/* Smooth background/border transitions when toggling theme */
+body, .glass, .glass-strong { transition: background-color 0.25s ease, border-color 0.25s ease; }
+
 @keyframes glitch-rgb {
   0% {
     opacity: 1;

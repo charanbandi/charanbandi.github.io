@@ -1,5 +1,7 @@
 import { motion } from 'framer-motion'
 import { ExternalLink, Download } from 'lucide-react'
+
+const EASE = [0.16, 1, 0.3, 1] as const
 import SectionHeading from '../ui/SectionHeading'
 import AnimatedCounter from '../ui/AnimatedCounter'
 
@@ -23,44 +25,31 @@ export default function About() {
         />
 
         <div className="grid lg:grid-cols-5 gap-12 lg:gap-14">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-80px' }}
-            transition={{ duration: 0.5 }}
-            className="lg:col-span-3 space-y-5"
-          >
-            <p className="text-text-secondary leading-relaxed">
-              I'm a Senior Software Engineer at Gen Digital with 5+ years of experience
-              designing and building scalable backend systems, cloud infrastructure, and
-              security platforms that serve millions of users worldwide.
-            </p>
-            <p className="text-text-secondary leading-relaxed">
-              I currently lead backend architecture for consumer VPN products spanning
-              5,000+ servers across 100+ locations, working with IPsec/IKEv2 tunnel
-              management, VPN gateway orchestration, and certificate lifecycle management
-              across AWS and Azure. I also build Java/Spring Boot applications for Gen's
-              e-commerce and payments platform, supporting over $5 billion in annual
-              revenue across all Gen brands.
-            </p>
-            <p className="text-text-secondary leading-relaxed">
-              On the AI side, I've built AI-driven production support systems for automated
-              incident triage and reached the finals of an internal AI hackathon for
-              designing a Private VPN layer with automatic PII/PCI detection for LLM
-              interactions.
-            </p>
-            <p className="text-text-secondary leading-relaxed">
-              Before industry, I earned my Master's in Computer Science from George Mason
-              University, where I published 2 peer-reviewed IEEE papers on IoT hardware
-              vulnerability analysis using NLP and machine learning.
-            </p>
-          </motion.div>
+          <div className="lg:col-span-3 space-y-5">
+            {[
+              "I'm a Senior Software Engineer at Gen Digital with 5+ years of experience designing and building scalable backend systems, cloud infrastructure, and security platforms that serve millions of users worldwide.",
+              "I currently lead backend architecture for consumer VPN products spanning 5,000+ servers across 100+ locations, working with IPsec/IKEv2 tunnel management, VPN gateway orchestration, and certificate lifecycle management across AWS and Azure. I also build Java/Spring Boot applications for Gen's e-commerce and payments platform, supporting over $5 billion in annual revenue across all Gen brands.",
+              "On the AI side, I've built AI-driven production support systems for automated incident triage and reached the finals of an internal AI hackathon for designing a Private VPN layer with automatic PII/PCI detection for LLM interactions.",
+              "Before industry, I earned my Master's in Computer Science from George Mason University, where I published 2 peer-reviewed IEEE papers on IoT hardware vulnerability analysis using NLP and machine learning.",
+            ].map((text, i) => (
+              <motion.p
+                key={i}
+                className="text-text-secondary leading-relaxed"
+                initial={{ opacity: 0, y: 28 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-60px' }}
+                transition={{ duration: 0.65, delay: i * 0.1, ease: EASE }}
+              >
+                {text}
+              </motion.p>
+            ))}
+          </div>
 
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, y: 36, scale: 0.97 }}
+            whileInView={{ opacity: 1, y: 0, scale: 1 }}
             viewport={{ once: true, margin: '-80px' }}
-            transition={{ duration: 0.5, delay: 0.15 }}
+            transition={{ duration: 0.7, delay: 0.2, ease: EASE }}
             className="lg:col-span-2 space-y-5"
           >
             <div className="glass rounded-xl p-6">
@@ -118,10 +107,10 @@ export default function About() {
         </div>
 
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-50px' }}
-          transition={{ duration: 0.5 }}
+          transition={{ duration: 0.7, ease: EASE }}
           className="mt-14 glass rounded-xl p-8 md:p-10"
         >
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8">

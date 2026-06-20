@@ -6,7 +6,7 @@ import ContactModal from '../ui/ContactModal'
 import { scrollToSection } from '../../utils/scroll'
 import { openToWork, targetingLabel } from '../../data/config'
 
-const PixelBlast = lazy(() => import('../effects/PixelBlast'))
+const PixelScatter = lazy(() => import('../effects/PixelScatter'))
 
 export default function Hero() {
   const [contactOpen, setContactOpen] = useState(false)
@@ -14,25 +14,12 @@ export default function Hero() {
   return (
     <section id="hero" className="relative min-h-screen flex items-center justify-center overflow-hidden">
 
-      {/* Background: WebGL PixelBlast — lazy-loaded so Three.js doesn't block TTI */}
+      {/* Background: raw WebGL pixel scatter — lazy-loaded to not block TTI */}
       <div className="absolute inset-0 z-0">
         <Suspense fallback={
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_-10%,rgba(45,212,191,0.10),transparent)]" />
         }>
-          <PixelBlast
-            variant="square"
-            pixelSize={4}
-            color="#2dd4bf"
-            patternScale={2}
-            patternDensity={1}
-            enableRipples
-            rippleSpeed={0.3}
-            rippleThickness={0.1}
-            rippleIntensityScale={1}
-            speed={0.5}
-            transparent
-            edgeFade={0.25}
-          />
+          <PixelScatter />
         </Suspense>
       </div>
 

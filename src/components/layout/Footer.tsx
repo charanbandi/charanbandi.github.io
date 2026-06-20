@@ -66,13 +66,6 @@ export default function Footer() {
           <p className="text-xs text-text-muted">
             &copy; {new Date().getFullYear()} Charan Bandi
           </p>
-          <p className="text-xs text-text-muted">
-            Built with{' '}
-            <span className="text-text-secondary">React</span>,{' '}
-            <span className="text-text-secondary">Vite</span>,{' '}
-            <span className="text-text-secondary">TypeScript</span>{' '}&amp;{' '}
-            <span className="text-text-secondary">Three.js</span>
-          </p>
         </div>
       </div>
     </footer>

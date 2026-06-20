@@ -25,9 +25,10 @@ export const projects: Project[] = [
       'Server-authoritative real-time world sync',
       '4 AI backends behind one interface',
     ],
-    image: '/images/talesauce-hero.png',
+    image: '/images/talesauce-hero.webp',
     links: [
       { label: 'GitHub', url: 'https://github.com/charanbandi/TaleSauce' },
+      { label: 'Live Demo', url: 'https://charanbandi.github.io/TaleSauce/' },
     ],
   },
   {
@@ -46,7 +47,7 @@ export const projects: Project[] = [
       'Network-edge privacy protection',
     ],
     isInternal: true,
-    image: '/images/hackathon-flow.jpg',
+    image: '/images/hackathon-flow.webp',
   },
   {
     title: 'Goalie: AI-Driven Incident Triage',

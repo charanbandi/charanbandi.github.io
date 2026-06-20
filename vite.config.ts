@@ -12,7 +12,8 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks: {
-          three: ['three', 'postprocessing'],
+          vendor: ['react', 'react-dom'],
+          motion: ['framer-motion'],
         },
       },
     },

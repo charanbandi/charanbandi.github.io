@@ -2,7 +2,10 @@ import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Lock, ChevronDown, Zap, Trophy, Github, ExternalLink } from 'lucide-react'
 import SectionHeading from '../ui/SectionHeading'
+import TiltCard from '../ui/TiltCard'
 import { projects } from '../../data/projects'
+
+const EASE = [0.16, 1, 0.3, 1] as const
 
 export default function Projects() {
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null)
@@ -23,11 +26,12 @@ export default function Projects() {
             return (
               <motion.div
                 key={project.title}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
+                initial={{ opacity: 0, y: 40, scale: 0.96 }}
+                whileInView={{ opacity: 1, y: 0, scale: 1 }}
                 viewport={{ once: true, margin: '-50px' }}
-                transition={{ duration: 0.4, delay: index * 0.08 }}
+                transition={{ duration: 0.6, delay: index * 0.1, ease: EASE }}
               >
+                <TiltCard className="h-full">
                 <div className="glass rounded-xl overflow-hidden h-full flex flex-col">
                   <div className="p-6 lg:p-7 flex flex-col flex-1">
                     <div className="flex items-start justify-between gap-3 mb-1">
@@ -143,6 +147,7 @@ export default function Projects() {
                     </div>
                   </div>
                 </div>
+                </TiltCard>
               </motion.div>
             )
           })}

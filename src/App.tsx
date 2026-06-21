@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, lazy, Suspense } from 'react'
 import Lenis from 'lenis'
 import { MotionConfig } from 'framer-motion'
 import Navbar from './components/layout/Navbar'
@@ -13,8 +13,17 @@ import Publications from './components/sections/Publications'
 import Contact from './components/sections/Contact'
 import ScrollProgressBar from './components/ui/ScrollProgressBar'
 import { setLenisInstance } from './utils/lenisStore'
+import { useScrollSection } from './hooks/useScrollSection'
+import { useMediaQuery } from './hooks/useMediaQuery'
+
+// three.js + drei + fiber are ~1 MB — load them in a separate chunk so the
+// text content paints immediately instead of waiting on the 3D runtime.
+const Scene = lazy(() => import('./components/3d/Scene'))
 
 export default function App() {
+  const { activeSection } = useScrollSection()
+  const isDesktop = useMediaQuery('(min-width: 768px)')
+
   useEffect(() => {
     const lenis = new Lenis({
       duration: 0.55,
@@ -38,21 +47,48 @@ export default function App() {
 
   return (
     <MotionConfig reducedMotion="user">
-      <div className="relative min-h-screen bg-bg-primary">
+      <div className="relative bg-bg-primary">
         <div className="noise-overlay" />
         <ScrollProgressBar />
         <Navbar />
-        <main>
-          <Hero />
-          <About />
-          <Skills />
-          <Experience />
-          <Education />
-          <Publications />
-          <Projects />
-          <Contact />
-        </main>
-        <Footer />
+
+        <div className="flex items-start">
+
+          {/* ── Left: sticky 3D panel (desktop only) ── */}
+          {isDesktop && (
+            <aside className="flex flex-col items-center justify-center sticky top-16 h-[calc(100vh-4rem)] w-[25%] flex-shrink-0">
+              <div className="w-full h-full">
+                <Suspense fallback={null}>
+                  <Scene activeSection={activeSection} />
+                </Suspense>
+              </div>
+            </aside>
+          )}
+
+          {/* ── Right: scrollable sections ── */}
+          <main className="w-full md:w-[75%]">
+
+            {/* Mobile: character sits at top, stacks above sections */}
+            {!isDesktop && (
+              <div className="sticky top-16 h-[25vh] z-10 bg-bg-primary">
+                <Suspense fallback={null}>
+                  <Scene activeSection={activeSection} />
+                </Suspense>
+              </div>
+            )}
+
+            <Hero />
+            <About />
+            <Skills />
+            <Experience />
+            <Education />
+            <Publications />
+            <Projects />
+            <Contact />
+            <Footer />
+          </main>
+
+        </div>
       </div>
     </MotionConfig>
   )

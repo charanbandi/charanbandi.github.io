@@ -154,7 +154,7 @@ export default function Hero() {
               </motion.div>
             </div>
 
-            {/* Profile photo — circular avatar on mobile, rectangular card on sm+ */}
+            {/* Profile photo */}
             <motion.div
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
@@ -165,20 +165,8 @@ export default function Hero() {
               <div className="sm:hidden relative w-24 h-24 rounded-full overflow-hidden mx-auto
                 border-2 border-white/10 ring-2 ring-accent-cyan/20 avatar-glitch">
                 <picture>
-                  <source
-                    type="image/webp"
-                    srcSet="/images/profile-sm.webp 200w, /images/profile-md.webp 400w, /images/profile.webp 533w"
-                    sizes="96px"
-                  />
-                  <img
-                    src="/images/profile.jpeg"
-                    srcSet="/images/profile-sm.jpeg 200w, /images/profile-md.jpeg 400w, /images/profile.jpeg 533w"
-                    sizes="96px"
-                    alt="Charan Bandi"
-                    className="w-full h-full object-cover object-top"
-                    loading="eager"
-                    fetchPriority="high"
-                  />
+                  <source type="image/webp" srcSet="/images/profile-sm.webp 200w, /images/profile-md.webp 400w, /images/profile.webp 533w" sizes="96px" />
+                  <img src="/images/profile.jpeg" srcSet="/images/profile-sm.jpeg 200w, /images/profile-md.jpeg 400w, /images/profile.jpeg 533w" sizes="96px" alt="Charan Bandi" className="w-full h-full object-cover object-top" loading="eager" fetchPriority="high" />
                 </picture>
                 <div className="avatar-glitch__scanlines" />
                 <div className="avatar-glitch__rgb" />
@@ -189,20 +177,8 @@ export default function Hero() {
                 <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-accent-cyan/15 to-accent-blue/15 blur-2xl" />
                 <div className="absolute inset-2 rounded-2xl overflow-hidden border border-white/10 avatar-glitch">
                   <picture>
-                    <source
-                      type="image/webp"
-                      srcSet="/images/profile-sm.webp 200w, /images/profile-md.webp 400w, /images/profile.webp 533w"
-                      sizes="(max-width: 768px) 208px, (max-width: 1024px) 288px, 300px"
-                    />
-                    <img
-                      src="/images/profile.jpeg"
-                      srcSet="/images/profile-sm.jpeg 200w, /images/profile-md.jpeg 400w, /images/profile.jpeg 533w"
-                      sizes="(max-width: 768px) 208px, (max-width: 1024px) 288px, 300px"
-                      alt="Charan Bandi"
-                      className="w-full h-full object-cover object-top"
-                      loading="eager"
-                      fetchPriority="high"
-                    />
+                    <source type="image/webp" srcSet="/images/profile-sm.webp 200w, /images/profile-md.webp 400w, /images/profile.webp 533w" sizes="(max-width: 768px) 208px, (max-width: 1024px) 288px, 300px" />
+                    <img src="/images/profile.jpeg" srcSet="/images/profile-sm.jpeg 200w, /images/profile-md.jpeg 400w, /images/profile.jpeg 533w" sizes="(max-width: 768px) 208px, (max-width: 1024px) 288px, 300px" alt="Charan Bandi" className="w-full h-full object-cover object-top" loading="eager" fetchPriority="high" />
                   </picture>
                   <div className="avatar-glitch__scanlines" />
                   <div className="avatar-glitch__rgb" />

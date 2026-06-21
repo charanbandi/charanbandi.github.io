@@ -20,6 +20,22 @@ npm run dev
 
 Opens at `http://localhost:5173`. Hot-reloads as you edit.
 
+### Stop the server
+
+In the terminal where it's running, press **`Ctrl + C`**.
+
+If it got orphaned in the background (e.g. the terminal was closed) and port 5173 is still taken, free the port with:
+
+```
+lsof -ti:5173 | xargs kill
+```
+
+The same works for the production preview server (`npm run preview`), which uses port `4173`:
+
+```
+lsof -ti:4173 | xargs kill
+```
+
 ## Deploy
 
 Just push to `main`. GitHub Actions automatically builds and deploys the site.

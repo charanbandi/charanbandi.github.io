@@ -16,8 +16,6 @@ import { setLenisInstance } from './utils/lenisStore'
 import { useScrollSection } from './hooks/useScrollSection'
 import { useMediaQuery } from './hooks/useMediaQuery'
 
-// three.js + drei + fiber are ~1 MB — load them in a separate chunk so the
-// text content paints immediately instead of waiting on the 3D runtime.
 const Scene = lazy(() => import('./components/3d/Scene'))
 
 export default function App() {
@@ -54,7 +52,7 @@ export default function App() {
 
         <div className="flex items-start">
 
-          {/* ── Left: sticky 3D panel (desktop only) ── */}
+          {/* ── Left: sticky 3D character (desktop only) ── */}
           {isDesktop && (
             <aside className="flex flex-col items-center justify-center sticky top-16 h-[calc(100vh-4rem)] w-[25%] flex-shrink-0">
               <div className="w-full h-full">
@@ -67,16 +65,6 @@ export default function App() {
 
           {/* ── Right: scrollable sections ── */}
           <main className="w-full md:w-[75%]">
-
-            {/* Mobile: character sits at top, stacks above sections */}
-            {!isDesktop && (
-              <div className="sticky top-16 h-[25vh] z-10 bg-bg-primary">
-                <Suspense fallback={null}>
-                  <Scene activeSection={activeSection} />
-                </Suspense>
-              </div>
-            )}
-
             <Hero />
             <About />
             <Skills />

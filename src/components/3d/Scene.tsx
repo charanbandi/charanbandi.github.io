@@ -2,16 +2,12 @@ import { Canvas } from '@react-three/fiber'
 import { ContactShadows, useProgress } from '@react-three/drei'
 import { Suspense, useEffect, useRef, useState } from 'react'
 import Character from './Character'
+import DynamicLights from './DynamicLights'
 
 interface SceneProps {
   activeSection: string
 }
 
-/**
- * One-time loading overlay. `useProgress` flips active again whenever a
- * background model warms up, so we latch `done` after the first load and never
- * show the spinner again.
- */
 function SceneLoader() {
   const { active, progress } = useProgress()
   const wasActive = useRef(false)
@@ -45,34 +41,13 @@ export default function Scene({ activeSection }: SceneProps) {
         gl={{ alpha: true, antialias: true, powerPreference: 'high-performance' }}
         style={{ background: 'transparent' }}
       >
-        {/* Ambient fill — keeps shadowed areas from going too dark */}
-        <ambientLight intensity={0.9} />
-
-        {/* Main key — upper left */}
-        <directionalLight position={[-3, 5, 2]} intensity={1.6} />
-
-        {/* Front fill — faces the camera, lights chest/face evenly */}
-        <directionalLight position={[0, 2, 6]} intensity={0.9} />
-
-        {/* Cyan rim — site accent, fires from behind-right */}
-        <pointLight position={[3, 2, -3]} color="#38bdf8" intensity={1.2} />
-
-        {/* Warm under-fill to soften harsh under-chin shadows */}
-        <pointLight position={[0, -1, 3]} intensity={0.5} color="#ffe4b5" />
-
+        <ambientLight intensity={2.5} />
+        <DynamicLights activeSection={activeSection} />
         <Suspense fallback={null}>
           <Character activeSection={activeSection} />
-
-          <ContactShadows
-            position={[0, -2.1, 0]}
-            opacity={0.35}
-            scale={5}
-            blur={2.5}
-            far={4}
-          />
+          <ContactShadows position={[0, -2.1, 0]} opacity={0.35} scale={5} blur={2.5} far={4} />
         </Suspense>
       </Canvas>
-
       <SceneLoader />
     </div>
   )
